@@ -1,0 +1,12 @@
+funcionalidades:
+  - lista de bibliotecas js e css
+  - usuário pode selecionar os pacotes que quer
+  - build and merge dos pacotes compactados
+  - disponibilização de link para pacotes
+  - lista de pacotes já disponíveis
+  - usuário registrado (possível): histórico
+  - campo opcional para envio do link por email
+  - 3 opções de update: auto-update, update com aviso (sim ou não), não fazer update
+  - aviso para links com auto-update (previnir quebras): avisos no prórprio site ou por email
+  - aviso com feedback visual (ex. vermelho para auto-update, laranja para update sobre aviso, amarelo para fixas sem update)
+  - futuramente: CDN foda pago
