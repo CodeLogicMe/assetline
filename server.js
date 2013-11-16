@@ -3,21 +3,20 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express')
+  , http = require('http')
+  , path = require('path');
 
-var http = require('http');
-var path = require('path');
-
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/assetline');
+var mongo = require('mongodb')
+  , monk = require('monk')
+  , db = monk('localhost:27017/assetline');
 
 var app = express();
 
 // all environments
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
-  app.set('views', path.join(__dirname, 'views'));
+  app.set('views', path.join(__dirname, 'app/views'));
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
@@ -47,4 +46,4 @@ http.createServer(app).listen(app.get('port'), function(){
 
 module.exports.app = app;
 module.exports.db = db;
-routes = require('./routes');
+routes = require('./app/routes');

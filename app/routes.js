@@ -2,13 +2,13 @@
  * to functions defined in various
  * controller classes
  */
-// console.log(module.parent);
+
 app = module.parent.exports.app;
 db = module.parent.exports.db;
 
-/* require your controllers here */
-var pagesCtrl = require('./controllers/pages');
-var assetCtrl = require('./controllers/assets');
+// controllers
+var pagesCtrl = require('../app/controllers/pages');
+var assetCtrl = require('../app/controllers/assets');
 
 // home page
 app.get('/', pagesCtrl.home);
