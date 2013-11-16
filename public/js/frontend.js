@@ -32,6 +32,7 @@ assetline.controller('newAssetCtrl', function($scope, $http){
 
 assetline.controller('newLibCtrl', function($scope, $http){
   $scope.new_lib = {};
+  $scope.types = ['JS', 'CSS'];
 
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;

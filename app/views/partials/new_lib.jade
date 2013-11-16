@@ -1,5 +1,7 @@
 span name:
 input(type="text", name="name", ng-model="new_lib.name")
+span type:
+select(ng-options="t for t in types", name="version", ng-model="new_lib.type")
 span version:
 input(type="text", name="version", ng-model="new_lib.version")
 span url:
@@ -14,11 +16,14 @@ table.table.results-table
       td.table-head-tag
       td.table-name Name
       td.table-ver Version
+      td.table-type Type
       td.table-options Options
   tbody
     tr(ng-repeat="lib in libs")
       td.table-tag
       td.table-name {{lib.name}}
       td.table-ver {{lib.version}}
+      td.table-type {{lib.type}}
       td.table-options
+        button(ng-click="edit(lib)") Edit
         button(ng-click="delete(lib)") Delete
