@@ -1,29 +1,8 @@
 extends layout
 
 block content
-  .container
+  .container(ng-app="assetline")
     .header
       h1(align='center') Assetline
 
-    .navigation(ng-app="assetline", ng-controller="popularCtrl")
-      button.asset-creation-btn.btn.btn-success.btn-block(type='button') Create new asset
-      .search-input-container
-        input.search-input.form-control(type='text', placeholder='Search...', ng-model="query")
-        span.search-icon.glyphicon.glyphicon-search
-      table.table.results-table
-        thead
-          tr
-            td.table-head-tag
-            td.table-name Name
-            td.table-desc Description
-            td.table-ver Version
-            td.table-upd Updated
-            td.table-dl Downloads
-        tbody
-          tr(ng-repeat="item in assets | filter:query")
-            td.table-tag
-            td.table-name {{item.names}}
-            td.table-desc Description
-            td.table-ver Version
-            td.table-upd Updated
-            td.table-dl Downloads
+    .navigation(ng-view)

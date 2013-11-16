@@ -5,12 +5,15 @@ function Asset (args, db){
   this.created_at = Date.now();
 };
 
-Asset.prototype.save = function(){
+Asset.prototype.save = function(callback){
   if (this.isNew()) {
     this.collection.insert({
       packages: this.packages,
       created_at: this.created_at
     });
+
+    if (callback)
+      callback(this);
   };
 
   return this;
