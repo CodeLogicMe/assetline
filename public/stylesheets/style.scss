@@ -21,6 +21,19 @@ a {
   }
 }
 
+.asset-creation {
+  .asset-list {
+    .asset-item {
+      .item-name {
+        display: left;
+      }
+      .item-info {
+        display: right;
+      }
+    }
+  }
+}
+
 .navigation {
   text-align: center;
   .mb50 {

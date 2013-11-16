@@ -16,6 +16,11 @@ a {
     font-size: 80px;
     color: #333; }
 
+.asset-creation .asset-list .asset-item .item-name {
+  display: left; }
+.asset-creation .asset-list .asset-item .item-info {
+  display: right; }
+
 .navigation {
   text-align: center; }
   .navigation .mb50 {
