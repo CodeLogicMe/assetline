@@ -1,5 +1,28 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    .header
+      h1(align='center') Assetline
+
+    .navigation
+      button.asset-creation-btn.btn.btn-success.btn-block(type='button') Create new asset
+      .search-input-container
+        input.search-input.form-control(type='text', placeholder='Search...')
+        span.search-icon.glyphicon.glyphicon-search
+      table.table.results-table
+        thead
+          tr
+            td.table-tag
+            td.table-name Name
+            td.table-desc Description
+            td.table-ver Version
+            td.table-upd Updated
+            td.table-dl Downloads
+        tr
+          td.table-tag
+          td.table-name Name
+          td.table-desc Description
+          td.table-ver Version
+          td.table-upd Updated
+          td.table-dl Downloads

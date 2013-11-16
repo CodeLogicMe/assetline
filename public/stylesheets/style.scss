@@ -1,0 +1,46 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.header {
+  margin-bottom: 80px !important;
+  h1 {
+    font-size: 80px;
+    color: #333;
+  }
+}
+
+.navigation {
+  text-align: center;
+  button, input {
+    margin-bottom: 50px;
+  }
+}
+
+.search-input-container {
+  position: relative;
+
+  .search-input {
+    padding-right: 35px;
+  }
+  .search-icon {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    line-height: 34px;
+  }
+}
+
+.results-table {
+  text-align: left;
+
+  .table-tag {
+    width: 7px;
+    padding: 0 !important;
+  }
+}
