@@ -1,8 +1,3 @@
-
-/*
- * GET asset listing.
- */
-
 var file = require("../models/asset")
   , Asset = file.Asset;
 
@@ -21,6 +16,8 @@ exports.list = function(db){
 
 exports.create = function(db){
   return function(req, res){
+    req.accepts('application/json');
+
     new Asset({
       packages: req.packages
     }, db).save(function(asset){

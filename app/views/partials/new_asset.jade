@@ -1,0 +1,12 @@
+form(name="form" class="css-form" novalidate)
+  ul.libs-js
+    li(ng-repeat="lib in libs.js")
+      label
+        input(type="checkbox", value="{{lib._id}}")
+        {{lib.name}}
+
+  ul.libs-css
+    li(ng-repeat="lib in libs.css")
+      label
+        input(type="checkbox", value="{{lib._id}}")
+        {{lib.name}}

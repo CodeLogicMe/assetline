@@ -5,6 +5,10 @@ assetline.config(function($routeProvider){
   .when('/', {
     templateUrl: 'partials/popular',
     controller: 'popularCtrl'
+  })
+  .when('/new', {
+    templateUrl: 'partials/newAsset',
+    controller: 'newAssetCtrl'
   });
 });
 
@@ -13,5 +17,11 @@ assetline.controller('popularCtrl', function($scope, $http){
 
   $http.get('/assets').success(function(data){
     $scope.assets = data.assets;
+  });
+});
+
+assetline.controller('newAssetCtrl', function($scope, $http){
+  $http.get('/libs').success(function(data){
+    $scope.libs = data.libs;
   });
 });
