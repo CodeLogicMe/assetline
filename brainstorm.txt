@@ -10,3 +10,15 @@ funcionalidades:
   - aviso para links com auto-update (previnir quebras): avisos no prórprio site ou por email
   - aviso com feedback visual (ex. vermelho para auto-update, laranja para update sobre aviso, amarelo para fixas sem update)
   - futuramente: CDN foda pago
+
+
+
+
+bibliotecas essenciais:
+  - angular
+  - jquery
+  - twitter bootstrap
+  - foundation
+  - ember
+  - backbone
+  - mootools

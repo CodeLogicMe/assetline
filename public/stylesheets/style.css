@@ -1,8 +1,33 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF;
-}
+  color: #00B7FF; }
+
+.header {
+  margin-bottom: 80px !important; }
+  .header h1 {
+    font-size: 80px;
+    color: #333; }
+
+.navigation {
+  text-align: center; }
+  .navigation button, .navigation input {
+    margin-bottom: 50px; }
+
+.search-input-container {
+  position: relative; }
+  .search-input-container .search-input {
+    padding-right: 35px; }
+  .search-input-container .search-icon {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    line-height: 34px; }
+
+.results-table {
+  text-align: left; }
+  .results-table .table-tag {
+    width: 7px;
+    padding: 0 !important; }
