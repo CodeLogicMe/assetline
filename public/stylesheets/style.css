@@ -35,3 +35,13 @@ a {
   .results-table .table-head-tag {
     width: 7px;
     padding: 0 !important; }
+  .results-table .table-name {
+    width: 10%; }
+  .results-table .table-desc {
+    width: 10%; }
+  .results-table .table-ver {
+    width: 10%; }
+  .results-table .table-upd {
+    width: 10%; }
+  .results-table .table-dl {
+    width: 10%; }
