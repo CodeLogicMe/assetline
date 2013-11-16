@@ -1,6 +1,15 @@
 var file = require("../collections/libs")
   , Libs = file.Libs;
 
+function extractParams(args){
+  return {
+    name: args.name,
+    version: args.version,
+    url: args.url,
+    type: args.type
+  };
+};
+
 exports.list = function(db){
   return function(req, res){
     req.accepts('application/json');
@@ -15,11 +24,21 @@ exports.create = function(db){
   return function(req, res){
     req.accepts('application/json');
 
-    new Libs(db).insert({
-      name: req.body.name,
-      version: req.body.version,
-      url: req.body.url
-    }, function(lib){
+    args = extractParams(req.body);
+
+    new Libs(db).insert(args, function(lib){
+      res.send({lib: lib});
+    });
+  };
+};
+
+exports.update = function(db){
+  return function(req, res){
+    req.accepts('application/json');
+
+    args = extractParams(req.params);
+
+    new Libs(db).insert(args, function(lib){
       res.send({lib: lib});
     });
   };

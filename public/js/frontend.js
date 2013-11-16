@@ -48,7 +48,6 @@ assetline.controller('newLibCtrl', function($scope, $http){
   $scope.delete = function(lib){
     $http.delete('/libs/' + lib._id);
     $scope.libs = $scope.libs.filter(function(item){
-      console.log(item._id)
       return item._id !== lib._id;
     });
   };

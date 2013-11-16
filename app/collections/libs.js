@@ -1,4 +1,4 @@
-function Libs (db){
+function Libs(db){
   this.collection = db.get('libs_collection');
 };
 
@@ -9,12 +9,16 @@ Libs.prototype.findAll = function(callback){
 };
 
 Libs.prototype.insert = function(args, callback){
-  this.collection.insert({
-    name: args.name,
-    version: args.version,
-    url: args.url,
-    created_at: Date.now()
-  }).success(function(asset){
+  args.created_at = Date.now();
+  this.collection.insert(args).
+  success(function(asset){
+    callback(asset);
+  });
+};
+
+Libs.prototype.update = function(args, callback){
+  this.collection.updateById(args.id, args)
+  .success(function(asset){
     callback(asset);
   });
 };

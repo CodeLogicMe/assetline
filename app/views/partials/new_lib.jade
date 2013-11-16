@@ -8,7 +8,17 @@ button(ng-click="submit()") Create
 
 br
 br
-ul
-  li(ng-repeat="lib in libs")
-    {{lib.name}}
-    button(ng-click="delete(lib)") Delete
+table.table.results-table
+  thead
+    tr
+      td.table-head-tag
+      td.table-name Name
+      td.table-ver Version
+      td.table-options Options
+  tbody
+    tr(ng-repeat="lib in libs")
+      td.table-tag
+      td.table-name {{lib.name}}
+      td.table-ver {{lib.version}}
+      td.table-options
+        button(ng-click="delete(lib)") Delete
