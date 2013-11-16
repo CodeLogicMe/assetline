@@ -13,7 +13,7 @@ table.table.results-table
       td.table-upd Updated
       td.table-dl Downloads
   tbody
-    tr(ng-repeat="item in assets | filter:query")
+    tr(ng-repeat="item in assets | filter:query", ng-animate="'animate'")
       td.table-tag
       td.table-name {{item.names}}
       td.table-desc Description

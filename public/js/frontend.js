@@ -1,4 +1,4 @@
-var assetline = angular.module('assetline', ['ngRoute']);
+var assetline = angular.module('assetline', ['ngRoute', 'ngAnimate']);
 
 assetline.config(function($routeProvider){
   $routeProvider
