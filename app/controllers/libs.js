@@ -1,11 +1,20 @@
-var file = require("../models/lib")
-  , Lib = file.Lib;
+var file = require("../collections/libs")
+  , Libs = file.Libs;
+
+function extractParams(args){
+  return {
+    name: args.name,
+    version: args.version,
+    url: args.url,
+    type: args.type
+  };
+};
 
 exports.list = function(db){
   return function(req, res){
     req.accepts('application/json');
 
-    Lib.findAll(db, function(libs){
+    new Libs(db).findAll(function(libs){
       res.send({libs: libs});
     });
   };
@@ -15,11 +24,30 @@ exports.create = function(db){
   return function(req, res){
     req.accepts('application/json');
 
-    new Lib({
-      name: req.params,
-      url: req.params
-    }, db).save(function(lib){
-      req.send({lib: lib});
+    args = extractParams(req.body);
+
+    new Libs(db).insert(args, function(lib){
+      res.send({lib: lib});
     });
-  }
-}
+  };
+};
+
+exports.update = function(db){
+  return function(req, res){
+    req.accepts('application/json');
+
+    args = extractParams(req.params);
+
+    new Libs(db).insert(args, function(lib){
+      res.send({lib: lib});
+    });
+  };
+};
+
+exports.delete = function(db){
+  return function(req, res){
+    new Libs(db).remove(req.params.id).success(function(){
+      res.send(200);
+    });
+  };
+};
