@@ -12,7 +12,7 @@ var assetCtrl = require('../app/controllers/assets');
 
 // home page
 app.get('/', pagesCtrl.home);
-app.get('/partials/:name', pagesCtrl.render);
+app.get('/partials/:name', pagesCtrl.partials);
 
 // assets
 app.get('/assets', assetCtrl.list(db));
