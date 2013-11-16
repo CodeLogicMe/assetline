@@ -1,7 +1,8 @@
-button.asset-creation-btn.btn.btn-success.btn-block(type='button') Create new asset
-.search-input-container
+a.asset-creation-btn.btn.btn-success.btn-block.mb50(href="#") Create new asset
+.search-input-container.input-group.mb50
   input.search-input.form-control(type='text', placeholder='Search...', ng-model="query")
-  span.search-icon.glyphicon.glyphicon-search
+  span.input-group-addon
+    span.glyphicon.glyphicon-search
 table.table.results-table
   thead
     tr
@@ -19,3 +20,18 @@ table.table.results-table
       td.table-ver Version
       td.table-upd Updated
       td.table-dl Downloads
+ul.pagination.mb50
+    li
+      a(href='#') «
+    li
+      a(href='#') 1
+    li
+      a(href='#') 2
+    li
+      a(href='#') 3
+    li
+      a(href='#') 4
+    li
+      a(href='#') 5
+    li
+      a(href='#') »
