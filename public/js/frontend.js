@@ -7,7 +7,7 @@ assetline.config(function($routeProvider){
     controller: 'popularCtrl'
   })
   .when('/new', {
-    templateUrl: 'partials/newAsset',
+    templateUrl: 'partials/new_asset',
     controller: 'newAssetCtrl'
   });
 });
