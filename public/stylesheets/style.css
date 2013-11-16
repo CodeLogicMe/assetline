@@ -30,4 +30,8 @@ a {
   text-align: left; }
   .results-table .table-tag {
     width: 7px;
+    padding: 0 !important;
+    background-color: #000; }
+  .results-table .table-head-tag {
+    width: 7px;
     padding: 0 !important; }
