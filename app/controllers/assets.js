@@ -6,8 +6,8 @@
 var file = require("../models/asset")
   , Asset = file.Asset;
 
-exports.list = function(db) {
-  return function(req, res) {
+exports.list = function(db){
+  return function(req, res){
     req.accepts('application/json');
 
     var collection = db.get('assetcollection');
@@ -19,10 +19,10 @@ exports.list = function(db) {
   };
 };
 
-exports.create = function(db) {
-  return function(req, res) {
+exports.create = function(db){
+  return function(req, res){
     new Asset({
-      req.packages
+      packages: req.packages
     }, db).save(function(asset){
       res.send(201, asset);
     });

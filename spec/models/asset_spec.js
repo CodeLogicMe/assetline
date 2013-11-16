@@ -37,6 +37,14 @@ describe('Asset', function(){
 
       expect(collection.insert).toHaveBeenCalledWith(args);
     });
+
+    it('should trigger the callback when done', function(){
+      var callback = jasmine.createSpy('whenDone');
+
+      var asset = new Asset({}, db).save(callback);
+
+      expect(callback).toHaveBeenCalledWith(asset);
+    });
   });
 
   describe('#isNew', function(){

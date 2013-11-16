@@ -1,4 +1,12 @@
-var assetline = angular.module('assetline', []);
+var assetline = angular.module('assetline', ['ngRoute']);
+
+assetline.config(function($routeProvider){
+  $routeProvider
+  .when('/', {
+    templateUrl: 'partials/popular',
+    controller: 'popularCtrl'
+  });
+});
 
 assetline.controller('popularCtrl', function($scope, $http){
   $scope.query;
