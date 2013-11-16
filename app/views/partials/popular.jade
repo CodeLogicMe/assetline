@@ -1,8 +1,23 @@
-a.asset-creation-btn.btn.btn-success.btn-block.mb50(href="#/new") Create new asset
+a.asset-creation-btn.btn.btn-success.btn-block.mb50(href='#/new',data-toggle='modal', data-target='#myModal') Create new asset
 .search-input-container.input-group.mb50
-  input.search-input.form-control(type='text', placeholder='Search...', ng-model="query")
+  input.search-input.form-control(type='text', placeholder='Search...', ng-model='query')
   span.input-group-addon
     span.glyphicon.glyphicon-search
+#myModal.asset-creation.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        h4#myModalLabel.modal-title Create new asset
+      .modal-body
+        .input-group.mb50
+          span.input-group-addon @
+          input.form-control(type='text', placeholder='Input your email...')
+        ul.list-group.asset-list
+          li.list-group-item.col-md-6.asset-item
+            span.item-name Bootstrap
+            span.item-info CSS + js
+
 table.table.results-table
   thead
     tr
