@@ -5,9 +5,11 @@
 
 exports.list = function(db) {
   return function(req, res) {
+    req.accepts('application/json');
+
     var collection = db.get('assetcollection');
     collection.find({},{},function(e,assets){
-      res.render('assets', {
+      res.send({
         "assets" : assets
       });
     });
