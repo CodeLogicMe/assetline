@@ -22,3 +22,4 @@ app.post('/assets', assetsCtrl.create(db));
 // libs
 app.get('/libs', libsCtrl.list(db));
 app.post('/libs', libsCtrl.create(db));
+app.del('/libs/:id', libsCtrl.delete(db));

@@ -1,12 +1,14 @@
-form(name="form" class="css-form" novalidate)
-  ul.libs-js
-    li(ng-repeat="lib in libs.js")
-      label
-        input(type="checkbox", value="{{lib._id}}")
-        {{lib.name}}
+span name:
+input(type="text", name="name", ng-model="new_lib.name")
+span version:
+input(type="text", name="version", ng-model="new_lib.version")
+span url:
+input(type="text", name="url", ng-model="new_lib.url")
+button(ng-click="submit()") Create
 
-  ul.libs-css
-    li(ng-repeat="lib in libs.css")
-      label
-        input(type="checkbox", value="{{lib._id}}")
-        {{lib.name}}
+br
+br
+ul
+  li(ng-repeat="lib in libs")
+    {{lib.name}}
+    button(ng-click="delete(lib)") Delete
