@@ -32,18 +32,6 @@ exports.create = function(db){
   };
 };
 
-exports.update = function(db){
-  return function(req, res){
-    req.accepts('application/json');
-
-    args = extractParams(req.params);
-
-    new Libs(db).insert(args, function(lib){
-      res.send({lib: lib});
-    });
-  };
-};
-
 exports.delete = function(db){
   return function(req, res){
     new Libs(db).remove(req.params.id).success(function(){
