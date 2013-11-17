@@ -22,15 +22,8 @@ a {
 }
 
 .asset-creation {
-  .asset-list {
-    .asset-item {
-      .item-name {
-        display: left;
-      }
-      .item-info {
-        display: right;
-      }
-    }
+  .assets-selection {
+    text-align: left !important;
   }
 }
 
@@ -57,6 +50,7 @@ a {
 
 .results-table {
   text-align: left;
+  overflow: hidden;
 
   thead {
     font-weight: bold;
@@ -64,13 +58,11 @@ a {
 
   .table-tag {
     width: 1%;
-    padding: 0 !important;
-    background-color: #000;
+    // padding: 0 !important;
   }
   .table-head-tag {
     width: 1%;
-    padding: 0 !important;
-
+    // padding: 0 !important;
   }
   .table-name {
     width: 20%;

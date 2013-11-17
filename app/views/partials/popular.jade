@@ -1,24 +1,35 @@
-a.asset-creation-btn.btn.btn-success.btn-block.mb50(href='#/new',data-toggle='modal', data-target='#myModal') Create new asset
+a.asset-creation-btn.btn.btn-success.btn-block.mb50(href='#',data-toggle='modal', data-target='#myModal') Create new asset
 .search-input-container.input-group.mb50
-  input.search-input.form-control(type='text', placeholder='Search...', ng-model='query')
   span.input-group-addon
     span.glyphicon.glyphicon-search
+  input.search-input.form-control(type='text', placeholder='Search...', ng-model='query')
 #myModal.asset-creation.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
   .modal-dialog
     .modal-content
       .modal-header
         button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         h4#myModalLabel.modal-title Create new asset
-      .modal-body
+      .modal-body.assets-selection
         .input-group.mb50
           span.input-group-addon @
           input.form-control(type='text', placeholder='Input your email...')
-        ul.list-group.asset-list
-          li.list-group-item.col-md-6.asset-item
-            span.item-name Bootstrap
-            span.item-info CSS + js
+        .search-input-container.input-group.mb50
+          span.input-group-addon
+            span.glyphicon.glyphicon-search
+          input.search-input.form-control(type='text', placeholder='Search...', ng-model='query')
+        form(name="form" class="css-form" novalidate, ng-controller="newAssetCtrl")
+          div.libs-js.list-group
+            label.list-group-item(ng-repeat="lib in libs")
+              input(type="checkbox", value="{{lib._id}}")
+              {{lib.name}}
 
-table.table.results-table
+          //- ul.libs-css
+          //-   li(ng-repeat="lib in libs")
+          //-     label
+          //-       input(type="checkbox", value="{{lib._id}}")
+          //-       {{lib.name}}
+//- .panel.panel-default
+table.table.results-table.table-striped
   thead
     tr
       td.table-head-tag

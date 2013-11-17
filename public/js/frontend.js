@@ -42,7 +42,7 @@ assetline.controller('newLibCtrl', function($scope, $http){
     $http.post('/libs', $scope.new_lib).success(function(data){
       $scope.lib = data.lib;
       $scope.libs.push(data.lib);
-      $scope.new_lib = {}
+      $scope.new_lib = {};
     });
   };
 
@@ -53,3 +53,12 @@ assetline.controller('newLibCtrl', function($scope, $http){
     });
   };
 });
+
+// assetline.directive('tableStyle', function() {
+//   return {
+//     restrict: "C",
+//     link: function(scope, elem) {
+//       $(elem).tablecloth({ theme: "default" });
+//     }
+//   };
+// });

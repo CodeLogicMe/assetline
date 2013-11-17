@@ -10,7 +10,8 @@ button(ng-click="submit()") Create
 
 br
 br
-table.table.results-table
+
+table.table.results-table.table-hover.table-condensed
   thead
     tr
       td.table-head-tag
@@ -20,7 +21,7 @@ table.table.results-table
       td.table-options Options
   tbody
     tr(ng-repeat="lib in libs")
-      td.table-tag
+      td.table-tag •
       td.table-name {{lib.name}}
       td.table-ver {{lib.version}}
       td.table-type {{lib.type}}
