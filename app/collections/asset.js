@@ -9,12 +9,8 @@ Assets.prototype.findAll = function(callback){
 };
 
 Assets.prototype.insert = function(args, callback){
-  this.collection.insert({
-    packages: args.packages,
-    created_at: Date.now()
-  }).success(function(asset){
-    callback(asset);
-  });
+  args.created_at = Date.now();
+  this.collection.insert(args).success(callback)
 };
 
 exports.Assets = Assets;

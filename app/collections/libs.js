@@ -10,17 +10,7 @@ Libs.prototype.findAll = function(callback){
 
 Libs.prototype.insert = function(args, callback){
   args.created_at = Date.now();
-  this.collection.insert(args).
-  success(function(asset){
-    callback(asset);
-  });
-};
-
-Libs.prototype.update = function(args, callback){
-  this.collection.updateById(args.id, args)
-  .success(function(asset){
-    callback(asset);
-  });
+  this.collection.insert(args).success(callback);
 };
 
 Libs.prototype.remove = function(id, callback){
