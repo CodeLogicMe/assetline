@@ -17,7 +17,7 @@ a.asset-creation-btn.btn.btn-success.btn-block.mb50(href='#',data-toggle='modal'
           span.input-group-addon
             span.glyphicon.glyphicon-search
           input.search-input.form-control(type='text', placeholder='Search...', ng-model='query')
-        form(name="form" class="css-form" novalidate, ng-controller="newAssetCtrl")
+        form(name="form" class="css-form" novalidate, ng-controller="newPackageCtrl")
           div.libs-js.list-group
             label.list-group-item(ng-repeat="lib in libs")
               input(type="checkbox", value="{{lib._id}}")

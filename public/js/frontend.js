@@ -7,8 +7,8 @@ assetline.config(function($routeProvider){
     controller: 'popularCtrl'
   })
   .when('/new', {
-    templateUrl: 'partials/new_asset',
-    controller: 'newAssetCtrl'
+    templateUrl: 'partials/new_package',
+    controller: 'newPackageCtrl'
   })
   .when('/new_lib', {
     templateUrl: 'partials/new_lib',
@@ -19,12 +19,12 @@ assetline.config(function($routeProvider){
 assetline.controller('popularCtrl', function($scope, $http){
   $scope.query;
 
-  $http.get('/assets').success(function(data){
+  $http.get('/packages').success(function(data){
     $scope.assets = data.assets;
   });
 });
 
-assetline.controller('newAssetCtrl', function($scope, $http){
+assetline.controller('newPackageCtrl', function($scope, $http){
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
   });
@@ -53,12 +53,3 @@ assetline.controller('newLibCtrl', function($scope, $http){
     });
   };
 });
-
-// assetline.directive('tableStyle', function() {
-//   return {
-//     restrict: "C",
-//     link: function(scope, elem) {
-//       $(elem).tablecloth({ theme: "default" });
-//     }
-//   };
-// });

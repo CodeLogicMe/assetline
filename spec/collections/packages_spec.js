@@ -1,7 +1,7 @@
-var file = require("../../app/collections/asset")
-  , Assets = file.Assets;
+var file = require("../../app/collections/packages")
+  , Packages = file.Packages;
 
-describe('Assets', function(){
+describe('Packages', function(){
   var db = {get: function(){}}
       , collection = {insert: function(){}};
 
@@ -11,9 +11,9 @@ describe('Assets', function(){
 
   describe('#constructor', function(){
     it('should initiate the variables correctly', function(){
-      var assets = new Assets(db);
+      var packages = new Packages(db);
 
-      expect(assets.collection).toBe(collection);
+      expect(packages.collection).toBe(collection);
     });
   });
 
@@ -33,10 +33,10 @@ describe('Assets', function(){
         created_at: 'now'
       };
 
-      var assets = new Assets(db);
-      assets.insert(args, function(asset){
-        expect(assets.insert).toHaveBeenCalledWith(args);
-        expect(asset).toBe(args);
+      var packages = new Packages(db);
+      packages.insert(args, function(package){
+        expect(packages.insert).toHaveBeenCalledWith(args);
+        expect(package).toBe(args);
       });
     });
   });

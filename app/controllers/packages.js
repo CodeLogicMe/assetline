@@ -1,12 +1,12 @@
-var file = require("../collections/asset")
-  , Assets = file.Assets;
+var file = require("../collections/packages")
+  , Packages = file.Packages;
 
 exports.list = function(db){
   return function(req, res){
     req.accepts('application/json');
 
-    new Assets(db).findAll(function(assets){
-      res.send({assets: assets});
+    new Packages(db).findAll(function(packages){
+      res.send({packages: packages});
     });
   };
 };
@@ -15,10 +15,10 @@ exports.create = function(db){
   return function(req, res){
     req.accepts('application/json');
 
-    new Assets({
-      packages: req.packages
+    new Packages({
+      package: req.package
     }, db).save(function(asset){
-      res.send(201, asset);
+      res.send(201, package);
     });
   };
 };

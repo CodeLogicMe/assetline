@@ -8,16 +8,16 @@ db = module.parent.exports.db;
 
 // controllers
 var pagesCtrl = require('../app/controllers/pages');
-var assetsCtrl = require('../app/controllers/assets');
+var packagesCtrl = require('../app/controllers/packages');
 var libsCtrl = require('../app/controllers/libs');
 
 // home page
 app.get('/', pagesCtrl.home);
 app.get('/partials/:name', pagesCtrl.partials);
 
-// assets
-app.get('/assets', assetsCtrl.list(db));
-app.post('/assets', assetsCtrl.create(db));
+// packages
+app.get('/packages', packagesCtrl.list(db));
+app.post('/packages', packagesCtrl.create(db));
 
 // libs
 app.get('/libs', libsCtrl.list(db));
