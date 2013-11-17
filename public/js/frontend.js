@@ -28,21 +28,31 @@ assetline.controller('newPackageCtrl', function($scope, $http){
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
   });
+
+  $scope.create = function(){
+    var package = {
+      libs: [$scope.libs[0]]
+    };
+    $http.post('/packages', package).success(function(data){
+      console.log(data);
+    });
+  };
 });
 
 assetline.controller('newLibCtrl', function($scope, $http){
-  $scope.new_lib = {};
+  $scope.newLib = {};
   $scope.types = ['JS', 'CSS'];
+  $scope.editLib;
 
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
   });
 
   $scope.submit = function(){
-    $http.post('/libs', $scope.new_lib).success(function(data){
+    $http.post('/libs', $scope.newLib).success(function(data){
       $scope.lib = data.lib;
       $scope.libs.push(data.lib);
-      $scope.new_lib = {};
+      $scope.newLib = {};
     });
   };
 
@@ -50,6 +60,21 @@ assetline.controller('newLibCtrl', function($scope, $http){
     $http.delete('/libs/' + lib._id);
     $scope.libs = $scope.libs.filter(function(item){
       return item._id !== lib._id;
+    });
+  };
+
+  $scope.edit = function(lib){
+    $scope.editLib = angular.copy(lib);
+  };
+
+  $scope.cancelEdit = function(){
+    $scope.editLib = null;
+    $scope.original = null;
+  };
+
+  $scope.update = function(lib){
+    $http.put('/libs/' + lib._id, lib).success(function(data){
+      $scope.cancelEdit();
     });
   };
 });

@@ -23,3 +23,5 @@ app.post('/packages', packagesCtrl.create(db));
 app.get('/libs', libsCtrl.list(db));
 app.post('/libs', libsCtrl.create(db));
 app.del('/libs/:id', libsCtrl.delete(db));
+// should be PATCH
+app.put('/libs/:id', libsCtrl.update(db));

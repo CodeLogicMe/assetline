@@ -1,12 +1,24 @@
 span name:
-input(type="text", name="name", ng-model="new_lib.name")
+input(type="text", name="name", ng-model="newLib.name")
 span type:
-select(ng-options="t for t in types", name="version", ng-model="new_lib.type")
+select(ng-options="t for t in types", name="version", ng-model="newLib.type")
 span version:
-input(type="text", name="version", ng-model="new_lib.version")
-span url:
-input(type="text", name="url", ng-model="new_lib.url")
+input(type="text", name="version", ng-model="newLib.version")
 button(ng-click="submit()") Create
+
+br
+br
+
+form(novalidate class="simple-form" ng-show="editLib")
+  span Name:
+  input(type="text" ng-model="editLib.name")
+  span Version:
+  input(type="text" ng-model="editLib.version")
+  span type:
+  select(ng-options="t for t in types", name="version", ng-model="editLib.type")
+
+  button(ng-click="cancelEdit()") Cancel
+  button(ng-click="update(editLib)") Update
 
 br
 br
@@ -26,4 +38,5 @@ table.table.results-table.table-hover.table-condensed
       td.table-ver {{lib.version}}
       td.table-type {{lib.type}}
       td.table-options
+        button(ng-click="edit(lib)") Edit
         button(ng-click="delete(lib)") Delete

@@ -13,8 +13,13 @@ Libs.prototype.insert = function(args, callback){
   this.collection.insert(args).success(callback);
 };
 
-Libs.prototype.remove = function(id, callback){
+Libs.prototype.remove = function(id){
   return this.collection.remove({_id: id});
+};
+
+Libs.prototype.findAndUpdate = function(id, args, callback){
+  args.updated_at = Date.now();
+  this.collection.updateById(id, args)
 };
 
 exports.Libs = Libs;
