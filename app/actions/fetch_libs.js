@@ -1,5 +1,6 @@
 var bower = require('bower');
 var _ = require('lodash');
+var fs = require('fs');
 
 function FetchLibs(libs){
   this.libs = libs;
@@ -7,9 +8,7 @@ function FetchLibs(libs){
 
 FetchLibs.prototype.run = function(whenDone){
   var libs = this.$bowerNames(this.libs);
-  this.$install(libs, function (installed) {
-    console.log(installed);
-  });
+  this.$install(libs, whenDone);
 };
 
 FetchLibs.prototype.$bowerNames = function(libs){
@@ -22,13 +21,12 @@ FetchLibs.prototype.$bowerNames = function(libs){
 
 FetchLibs.prototype.$install = function(libs, onEnd){
   bower.commands.install(libs, {}, {})
-  .on('log', function(status){
-    // should log this locally
-  })
-  .on('error', function(err){
-    // should log this locally
-  })
+  .on('error', this.$logToFile)
   .on('end', onEnd);
 };
+
+FetchLibs.prototype.$logToFile = function(msg){
+  fs.appendFile('/tmp/bower_dev.log', msg);
+}
 
 exports.FetchLibs = FetchLibs;

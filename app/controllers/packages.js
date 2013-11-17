@@ -1,14 +1,5 @@
-var file = require("../collections/packages")
-  , Packages = file.Packages;
-
-var file = require("../../app/actions/fetch_libs")
-  , FetchLibs = file.FetchLibs;
-
-function extractParams(args){
-  return {
-    libs: args.libs
-  };
-};
+var file = require("../../app/contexts/package_creation")
+  , PackageCreation = file.PackageCreation;
 
 exports.list = function(db){
   return function(req, res){
@@ -24,10 +15,7 @@ exports.create = function(db){
   return function(req, res){
     req.accepts('application/json');
 
-    var args = extractParams(req.body);
-
-    new Packages(db).insert(args, function(package){
-      new FetchLibs(package.libs).run();
+    new PackageCreation(req.body).run(function(package){
       res.send(201, package);
     });
   };
