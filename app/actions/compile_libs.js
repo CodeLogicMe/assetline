@@ -27,7 +27,7 @@ CompileLibs.prototype.$saveFiles = function(files){
 
   return _.map(files, function(file){
     fs.writeFileSync(filename, file.code);
-    return filename;
+    return filename.match(/packages.+/m)[0];
   });
 };
 

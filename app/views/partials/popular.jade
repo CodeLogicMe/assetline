@@ -36,18 +36,15 @@ table.table.results-table.table-striped
     tr
       td.table-head-tag
       td.table-name Name
-      td.table-desc Description
-      td.table-ver Version
       td.table-upd Updated
       td.table-dl Downloads
   tbody
-    tr(ng-repeat="item in assets | filter:query", ng-animate="'animate'")
+    tr(ng-repeat="item in packages | filter:query", ng-animate="'animate'")
       td.table-tag
-      td.table-name {{item.names}}
-      td.table-desc Description
-      td.table-ver Version
-      td.table-upd Updated
-      td.table-dl Downloads
+      td.table-name {{namesForPackage(item)}}
+      td.table-upd {{item.updated_at}}
+      td.table-dl 19283
+      td.table-dl {{item.url | withHost}}
 ul.pagination.mb50
     li
       a(href='#') «

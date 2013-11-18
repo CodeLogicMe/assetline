@@ -1,3 +1,6 @@
+var file = require("../collections/packages")
+  , Packages = file.Packages;
+
 var file = require("../../app/contexts/package_creation")
   , PackageCreation = file.PackageCreation;
 

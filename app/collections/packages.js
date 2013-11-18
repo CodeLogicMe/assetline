@@ -10,7 +10,13 @@ Packages.prototype.findAll = function(callback){
 
 Packages.prototype.insert = function(args, callback){
   args.created_at = Date.now();
-  this.collection.insert(args).success(callback)
+  this.collection.insert(args).success(callback);
+};
+
+Packages.prototype.findAndUpdate = function(id, args, callback){
+  args.updated_at = Date.now();
+  this.collection.updateById(id, args);
+  callback(args);
 };
 
 exports.Packages = Packages;

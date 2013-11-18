@@ -20,8 +20,16 @@ assetline.controller('popularCtrl', function($scope, $http){
   $scope.query;
 
   $http.get('/packages').success(function(data){
-    $scope.assets = data.assets;
+    $scope.packages = data.packages;
   });
+
+  $scope.namesForPackage = function(pack){
+    var names = [];
+    angular.forEach(pack.libs, function(lib){
+      names.push(lib.name + '#' + lib.version);
+    });
+    return names.join(', ');
+  };
 });
 
 assetline.controller('newPackageCtrl', function($scope, $http){
@@ -34,7 +42,7 @@ assetline.controller('newPackageCtrl', function($scope, $http){
       libs: [$scope.libs[0]]
     };
     $http.post('/packages', package).success(function(data){
-      console.log(data);
+      Packages.push(data);
     });
   };
 });
