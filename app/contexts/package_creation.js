@@ -29,8 +29,7 @@ PackageCreation.prototype.$minifyThisShit = function(package, whenOk){
     var shit = new CompileLibs(package.libs).run();
     package.url = shit[0];
     new Packages(db).findAndUpdate(package._id, package, whenOk);
-    });
   });
-}
+};
 
 exports.PackageCreation = PackageCreation;
