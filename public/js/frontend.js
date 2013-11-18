@@ -87,16 +87,15 @@ assetline.controller('newLibCtrl', function($scope, $http){
   };
 });
 
-filter('withHost', function() {
-  return function(input, uppercase) {
-    var out = "";
-    for (var i = 0; i < input.length; i++) {
-      out = input.charAt(i) + out;
-    }
-    // conditional based on optional argument
-    if (uppercase) {
-      out = out.toUpperCase();
-    }
-    return out;
+assetline.filter('withHost', function($location) {
+  return function(input) {
+    console.log($location);
+    return $location.protocol()
+         + '://'
+         + $location.host()
+         + ':'
+         + $location.port()
+         + '/'
+         + input;
   }
 });
