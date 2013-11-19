@@ -1,4 +1,4 @@
-a.asset-creation-btn.btn.btn-success.btn-block.mb50(href='#',data-toggle='modal', data-target='#myModal') Create new asset
+a.asset-creation-btn.btn.btn-success.btn-block.mb50(data-toggle='modal', data-target='#myModal') Create new asset
 .search-input-container.input-group.mb50
   span.input-group-addon
     span.glyphicon.glyphicon-search
@@ -30,21 +30,21 @@ a.asset-creation-btn.btn.btn-success.btn-block.mb50(href='#',data-toggle='modal'
           //-     label
           //-       input(type="checkbox", value="{{lib._id}}")
           //-       {{lib.name}}
-//- .panel.panel-default
-table.table.results-table.table-striped
-  thead
-    tr
-      td.table-head-tag
-      td.table-name Name
-      td.table-upd Updated
-      td.table-dl Downloads
-  tbody
-    tr(ng-repeat="item in packages | filter:query", ng-animate="'animate'")
-      td.table-tag
-      td.table-name {{namesForPackage(item)}}
-      td.table-upd {{item.updated_at}}
-      td.table-dl 19283
-      td.table-dl {{item.url | withHost}}
+.panel.panel-default.results-table
+  table.table.table-striped
+    thead
+      tr
+        td.table-head-tag
+        td.table-name Name
+        td.table-upd Updated
+        td.table-dl Downloads
+    tbody
+      tr(ng-repeat="item in packages | filter:query", ng-animate="'animate'")
+        td.table-tag
+        td.table-name {{namesForPackage(item)}}
+        td.table-upd {{item.updated_at}}
+        td.table-dl 19283
+        td.table-dl {{item.url | withHost}}
 ul.pagination.mb50
     li
       a(href='#') «
