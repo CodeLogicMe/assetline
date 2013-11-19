@@ -1,6 +1,5 @@
 var assetline = angular.module('assetline', [
-  'ngRoute',
-  'ngAnimate'
+  'ngRoute'
 ]);
 
 assetline.config(function($routeProvider){
@@ -88,7 +87,8 @@ assetline.controller('newPackageCtrl', function($scope, $http){
       return Math.ceil($scope.filtered.length/$scope.pageSize);
     };
 
-    $scope.$watch('queryLib', function(newValue){
+    $scope.$watch('queryLib', function(){
+      $scope.currentPage = 0;
       $scope.numberOfPages();
     });
   });
