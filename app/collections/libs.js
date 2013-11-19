@@ -25,7 +25,7 @@ Libs.prototype.remove = function(id){
 
 Libs.prototype.findAndUpdate = function(id, args, callback){
   args.updated_at = Date.now();
-  this.collection.updateById(id, args);
+  this.collection.updateById(id, args, callback);
 };
 
 exports.Libs = Libs;
