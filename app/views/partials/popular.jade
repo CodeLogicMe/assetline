@@ -3,39 +3,9 @@ a.asset-creation-btn.btn.btn-success.btn-block.mb50(data-toggle='modal', data-ta
   span.input-group-addon
     span.glyphicon.glyphicon-search
   input.search-input.form-control(type='text', placeholder='Search...', ng-model='query')
-#myModal.asset-creation.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-  .modal-dialog
-    .modal-content
-      .modal-header
-        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-        h4#myModalLabel.modal-title Create new asset
-      .modal-body.assets-selection
-        .input-group.mb50
-          span.input-group-addon @
-          input.form-control(type='text', placeholder='Input your email...')
-        .search-input-container.input-group.mb50
-          span.input-group-addon
-            span.glyphicon.glyphicon-search
-          input.search-input.form-control(type='text', placeholder='Search...', ng-model='queryLib')
-        form(name="form" class="css-form" novalidate, ng-controller="newPackageCtrl")
-          div.libs-js.list-group
-            label.list-group-item(ng-repeat="lib in filtered = (libs | filter:{name: queryLib}) | startFrom:currentPage*pageSize | limitTo:pageSize")
-              input(type="checkbox", value="{{lib._id}}")
-              {{lib.name}}
 
-          button(ng-disabled='currentPage == 0', ng-click='currentPage=currentPage-1')
-            | Previous
-          | {{currentPage+1}}/{{numberOfPages()}}
-          button(ng-disabled='currentPage >= libs.length/pageSize - 1' ng-click="currentPage=currentPage+1")
-            | Next
 
-          button(ng-click="create()") Pack!
-
-          //- ul.libs-css
-          //-   li(ng-repeat="lib in libs")
-          //-     label
-          //-       input(type="checkbox", value="{{lib._id}}")
-          //-       {{lib.name}}
+//- Table input
 .panel.panel-default.results-table
   table.table.table-striped
     thead
@@ -66,3 +36,33 @@ ul.pagination.mb50
       a(href='#') 5
     li
       a(href='#') »
+
+
+//- Asset creation modal
+#myModal.asset-creation.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        h4#myModalLabel.modal-title Create new asset
+      .modal-body.assets-selection
+        .input-group.mb50
+          span.input-group-addon @
+          input.form-control(type='text', placeholder='Input your email...')
+        .search-input-container.input-group.mb50
+          span.input-group-addon
+            span.glyphicon.glyphicon-search
+          input.search-input.form-control(type='text', placeholder='Search...', ng-model='queryLib')
+        form(name="form" class="css-form" novalidate, ng-controller="newPackageCtrl")
+          div.libs-js.list-group
+            label.list-group-item(ng-repeat="lib in filtered = (libs | filter:{name: queryLib}) | startFrom:currentPage*pageSize | limitTo:pageSize")
+              input(type="checkbox", value="{{lib._id}}")
+              {{lib.name}}
+
+          button(ng-disabled='currentPage == 0', ng-click='currentPage=currentPage-1')
+            | Previous
+          | {{currentPage+1}}/{{numberOfPages()}}
+          button(ng-disabled='currentPage >= libs.length/pageSize - 1' ng-click="currentPage=currentPage+1")
+            | Next
+      .modal-footer
+        button.btn.btn-primary(type="button" ng-click="create()") Pack!
