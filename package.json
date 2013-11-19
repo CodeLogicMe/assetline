@@ -4,7 +4,8 @@
   "description": "A Dynamic CDN setup",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jasmine-node spec"
   },
   "author": {
     "name": "Codelogic",
@@ -23,7 +24,8 @@
     "bower": "~1.2.7",
     "lodash": "~2.3.0",
     "uglify-js": "~2.4.3",
-    "forever": "~0.10.9"
+    "forever": "~0.10.9",
+    "request": "~2.27.0"
   },
   "devDependencies": {
     "jasmine-node": "~1.11.0"

@@ -8,6 +8,12 @@ Libs.prototype.findAll = function(callback){
   });
 };
 
+Libs.prototype.findByName = function(name, callback){
+  this.collection.find({name: name}, function(err, items){
+    callback(items);
+  });
+};
+
 Libs.prototype.insert = function(args, callback){
   args.created_at = Date.now();
   this.collection.insert(args).success(callback);
