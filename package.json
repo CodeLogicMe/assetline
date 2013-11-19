@@ -26,7 +26,8 @@
     "uglify-js": "~2.4.3",
     "forever": "~0.10.9",
     "request": "~2.27.0",
-    "execSync": "~1.0.1-pre"
+    "execSync": "~1.0.1-pre",
+    "semver": "~2.2.1"
   },
   "devDependencies": {
     "jasmine-node": "~1.11.0"
