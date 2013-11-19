@@ -19,7 +19,7 @@ a.asset-creation-btn.btn.btn-success.btn-block.mb50(data-toggle='modal', data-ta
           input.search-input.form-control(type='text', placeholder='Search...', ng-model='queryLib')
         form(name="form" class="css-form" novalidate, ng-controller="newPackageCtrl")
           div.libs-js.list-group
-            label.list-group-item(ng-repeat="lib in filtered = (libs | filter:queryLib) | startFrom:currentPage*pageSize | limitTo:pageSize")
+            label.list-group-item(ng-repeat="lib in filtered = (libs | filter:{name: queryLib}) | startFrom:currentPage*pageSize | limitTo:pageSize")
               input(type="checkbox", value="{{lib._id}}")
               {{lib.name}}
 

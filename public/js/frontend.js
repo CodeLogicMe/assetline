@@ -1,4 +1,7 @@
-var assetline = angular.module('assetline', ['ngRoute', 'ngAnimate']);
+var assetline = angular.module('assetline', [
+  'ngRoute',
+  'ngAnimate'
+]);
 
 assetline.config(function($routeProvider){
   $routeProvider
@@ -29,33 +32,6 @@ assetline.controller('popularCtrl', function($scope, $http){
       names.push(lib.name + '#' + lib.version);
     });
     return names.join(', ');
-  };
-});
-
-assetline.controller('newPackageCtrl', function($scope, $http){
-  $scope.currentPage = 0;
-  $scope.pageSize = 10;
-  $scope.libs = [];
-
-  $http.get('/libs').success(function(data){
-    $scope.libs = data.libs;
-
-    $scope.numberOfPages = function(){
-      return Math.ceil($scope.filtered.length/$scope.pageSize);
-    };
-
-    $scope.$watch('queryLib', function(newValue){
-      $scope.numberOfPages();
-    });
-  });
-
-  $scope.create = function(){
-    var package = {
-      libs: [$scope.libs[0]]
-    };
-    $http.post('/packages', package).success(function(data){
-      Packages.push(data);
-    });
   };
 });
 
@@ -99,6 +75,44 @@ assetline.controller('newLibCtrl', function($scope, $http){
   };
 });
 
+assetline.controller('newPackageCtrl', function($scope, $http){
+  $scope.currentPage = 0;
+  $scope.pageSize = 10;
+  $scope.maxSize = 5; //pagination max size
+  $scope.libs = [];
+
+  $http.get('/libs').success(function(data){
+    $scope.libs = data.libs;
+
+    $scope.numberOfPages = function(){
+      return Math.ceil($scope.filtered.length/$scope.pageSize);
+    };
+
+    $scope.$watch('queryLib', function(newValue){
+      $scope.numberOfPages();
+    });
+  });
+
+  $scope.create = function(){
+    var package = {
+      libs: [$scope.libs[0]]
+    };
+    $http.post('/packages', package).success(function(data){
+      Packages.push(data);
+    });
+  };
+});
+
+assetline.filter('startFrom', function() {
+  return function(input, start) {
+    if(input) {
+      start = +start; //parse to int
+      return input.slice(start);
+    };
+    return [];
+  };
+});
+
 assetline.filter('withHost', function($location) {
   return function(input) {
     return $location.protocol()
@@ -109,11 +123,4 @@ assetline.filter('withHost', function($location) {
          + '/'
          + input;
   }
-});
-
-assetline.filter('startFrom', function() {
-  return function(input, start) {
-    start = +start; //parse to int
-    return input.slice(start);
-  };
 });

@@ -14,6 +14,13 @@ exports.list = function(db){
     req.accepts('application/json');
 
     new Libs(db).findAll(function(libs){
+      libs = libs.sort(function(a, b){
+        if (a.name < b.name)
+          return -1;
+        if (a.name > b.name)
+          return 1;
+        return 0;
+      })
       res.send({libs: libs});
     });
   };
