@@ -33,8 +33,20 @@ assetline.controller('popularCtrl', function($scope, $http){
 });
 
 assetline.controller('newPackageCtrl', function($scope, $http){
+  $scope.currentPage = 0;
+  $scope.pageSize = 10;
+  $scope.libs = [];
+
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
+
+    $scope.numberOfPages = function(){
+      return Math.ceil($scope.filtered.length/$scope.pageSize);
+    };
+
+    $scope.$watch('queryLib', function(newValue){
+      $scope.numberOfPages();
+    });
   });
 
   $scope.create = function(){
@@ -89,7 +101,6 @@ assetline.controller('newLibCtrl', function($scope, $http){
 
 assetline.filter('withHost', function($location) {
   return function(input) {
-    console.log($location);
     return $location.protocol()
          + '://'
          + $location.host()
@@ -98,4 +109,11 @@ assetline.filter('withHost', function($location) {
          + '/'
          + input;
   }
+});
+
+assetline.filter('startFrom', function() {
+  return function(input, start) {
+    start = +start; //parse to int
+    return input.slice(start);
+  };
 });
