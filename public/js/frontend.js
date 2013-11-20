@@ -157,7 +157,7 @@ assetline.directive('packageCreationModal', function(){
       };
 
       $scope.goForwardOnePage = function() {
-        if ($scope.currentPage < $scope.numberOfPages()) {
+        if ($scope.currentPage + 1 < $scope.numberOfPages()) {
           $scope.currentPage++;
         };
       };
