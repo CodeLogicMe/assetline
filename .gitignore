@@ -1,3 +1,4 @@
+dump/
 *.sass-cache
 *.DS_Store
 lib-cov
