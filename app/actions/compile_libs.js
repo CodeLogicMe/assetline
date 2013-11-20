@@ -9,13 +9,18 @@ function CompileLibs(libs) {
 
 CompileLibs.prototype.run = function(){
   var that = this;
-  var dir = this.$tmpDir();
-  var files = _.map(this.libs, function(lib){
-    return that.$filepath(dir, lib);
+  var bowerDir = this.$bowerDir();
+  var files = [];
+  _.each(this.libs, function(lib){
+    _.each(lib.files, function(file){
+      files.push(that.$getFullPath(bowerDir, lib.name, file));
+    });
   });
 
+  console.log(files);
   var result = UglifyJS.minify(files);
   var savedFiles = this.$saveFiles([result]);
+  console.log(savedFiles);
 
   return savedFiles;
 };
@@ -41,9 +46,8 @@ CompileLibs.prototype.$randomID = function(files){
   return text;
 }
 
-CompileLibs.prototype.$tmpDir = function(){
-  var appFolder = __dirname.replace(/app\/actions$/gm, '')
-  return appFolder + 'bower_components/'
+CompileLibs.prototype.$bowerDir = function(){
+  return __dirname.replace(/app\/actions$/, 'bower_components/')
 };
 
 CompileLibs.prototype.$publicDir = function(){
@@ -51,14 +55,10 @@ CompileLibs.prototype.$publicDir = function(){
   return appFolder + 'public/packages/'
 };
 
-CompileLibs.prototype.$filepath = function(dir, lib){
-  var name = lib.name.toLowerCase();
+CompileLibs.prototype.$getFullPath = function(dir, libName, file){
   return dir
-    + name
-    + '/'
-    + name
-    + '.'
-    + lib.type.toLowerCase();
+    + libName.toLowerCase()
+    + file;
 };
 
 exports.CompileLibs = CompileLibs;

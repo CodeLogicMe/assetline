@@ -26,9 +26,10 @@ PackageCreation.prototype.$extractParams = function(args){
 
 PackageCreation.prototype.$minifyThisShit = function(package, whenOk){
   var libs = new FetchLibs(package.libs).run(function(result){
-    var shit = new CompileLibs(package.libs).run();
+    var shit = new CompileLibs(result).run();
     package.url = shit[0];
     new Packages(db).findAndUpdate(package._id, package, whenOk);
+    whenOk()
   });
 };
 
