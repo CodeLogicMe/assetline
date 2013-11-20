@@ -134,6 +134,11 @@ assetline.directive('packageCreationModal', function(){
     restrict: 'E',
     replace: true,
     templateUrl: '/partials/new_package',
+    link: function(scope, elm){
+      $('#myModal').on('shown.bs.modal', function () {
+        $('.search-input.form-control').focus();
+      })
+    },
     controller: function($scope){
       $scope.currentPage = 0;
       $scope.pageSize = 10;
