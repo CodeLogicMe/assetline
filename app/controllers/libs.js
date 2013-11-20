@@ -20,7 +20,7 @@ exports.list = function(db){
         if (a.name > b.name)
           return 1;
         return 0;
-      })
+      });
       res.send({libs: libs});
     });
   };

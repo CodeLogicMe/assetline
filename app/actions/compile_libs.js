@@ -17,10 +17,10 @@ CompileLibs.prototype.run = function(){
     });
   });
 
-  console.log(files);
+  // console.log(files);
   var result = UglifyJS.minify(files);
   var savedFiles = this.$saveFiles([result]);
-  console.log(savedFiles);
+  // console.log(savedFiles);
 
   return savedFiles;
 };

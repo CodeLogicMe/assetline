@@ -1,4 +1,5 @@
-var execSync = require('execSync');
+var exec = require('child_process').exec;
+var async = require('async');
 var semver = require('semver');
 
 var mongo = require('mongodb')
@@ -13,12 +14,10 @@ var exec = require('child_process').exec;
 var _ = require('lodash');
 var refs, tags, version;
 
-function parseVersions(lib){
-  var result = execSync.exec("git ls-remote --tags " + lib.website);
-
-  try {
-    if (result.code == 0) {
-      refs = result.stdout.toString()
+function parseVersions(lib, onFinish){
+  exec("git ls-remote --tags " + lib.website, function(error, stdout, stderr){
+    if (stdout) {
+      refs = stdout.toString()
       .trim()                         // Trim trailing and leading spaces
       .replace(/[\t ]+/g, ' ')        // Standardize spaces (some git versions make tabs, other spaces)
       .split(/[\r\n]+/);
@@ -28,21 +27,22 @@ function parseVersions(lib){
         if (version.indexOf('^{}') === -1)
           return semver.valid(version);
       });
-      saveVersions(lib, tags.filter(function(n){return n}));
+      saveVersions(lib, tags.filter(function(n){return n}), onFinish);
+    } else {
+      onFinish()
     }
-  } catch (e) {
-    console.log(lib.name, lib.website);
-  }
-}
+  });
+};
 
-function saveVersions(lib, versions) {
+function saveVersions(lib, versions, onFinish) {
   lib.versions = versions;
   libsCollection.findAndUpdate(lib._id, lib);
   console.log('id -> ', lib._id);
+  onFinish();
 }
 
 libsCollection.findAll(function(libs){
-  _.map(libs, function(lib){
-    parseVersions(lib);
+  async.eachLimit(libs, 50, function(lib, onFinish){
+    parseVersions(lib, onFinish);
   });
 });
