@@ -80,26 +80,11 @@ assetline.controller('newLibCtrl', function($scope, $http){
 });
 
 assetline.controller('newPackageCtrl', function($scope, $http){
-  $scope.currentPage = 0;
-  $scope.pageSize = 10;
-  $scope.maxSize = 5; //pagination max size
   $scope.libs = [];
 
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
-
-
-    $scope.$watch('queryLib', function(){
-      $scope.currentPage = 0;
-      $scope.numberOfPages();
-    });
   });
-
-  $scope.numberOfPages = function() {
-    if(!$scope.filtered)
-      return 0;
-    return Math.ceil($scope.filtered.length/$scope.pageSize);
-  };
 
   $scope.create = function(){
     var selectedLibs = $scope.libs.filter(function(lib) {
@@ -110,50 +95,15 @@ assetline.controller('newPackageCtrl', function($scope, $http){
       libs: selectedLibs
     };
 
-    $('#myModal').modal('hide');
+    $scope.queryLib = '';
 
-    $scope.queryLib = "";
-
-    var uncheckLibs = $scope.libs.filter(function(lib) {
+    angular.forEach(selectedLibs, function(lib) {
       return lib.selected = false;
     });
 
     $http.post('/packages', package).success(function(data){
       Packages.push(data);
     });
-  };
-
-  $scope.goBackOnePage = function() {
-    if ($scope.currentPage > 0) {
-      $scope.currentPage--;
-    };
-  };
-
-  $scope.goForwardOnePage = function() {
-    if ($scope.currentPage < $scope.numberOfPages()) {
-      $scope.currentPage++;
-    };
-  };
-
-  $scope.isFirstPage = function() {
-    return ($scope.currentPage === 0);
-  };
-
-  $scope.isLastPage = function() {
-    return ($scope.currentPage === $scope.numberOfPages() - 1);
-  };
-
-  $scope.advancePageInSteps = function(steps) {
-    $scope.currentPage += steps;
-  };
-
-  $scope.goToPage = function(page) {
-    if(page == 'first') {
-      $scope.currentPage = 0;
-    }
-    if(page == 'last') {
-      $scope.currentPage = $scope.numberOfPages() - 1;
-    }
   };
 });
 
@@ -177,4 +127,61 @@ assetline.filter('withHost', function($location) {
          + '/'
          + input;
   }
+});
+
+assetline.directive('packageCreationModal', function(){
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: '/partials/new_package',
+    controller: function($scope){
+      $scope.currentPage = 0;
+      $scope.pageSize = 10;
+      $scope.maxSize = 5; //pagination max size
+
+      $scope.$watch('queryLib', function(){
+        $scope.currentPage = 0;
+        $scope.numberOfPages();
+      });
+
+      $scope.numberOfPages = function() {
+        if(!$scope.filtered)
+          return 0;
+        return Math.ceil($scope.filtered.length/$scope.pageSize);
+      };
+
+      $scope.goBackOnePage = function() {
+        if ($scope.currentPage > 0) {
+          $scope.currentPage--;
+        };
+      };
+
+      $scope.goForwardOnePage = function() {
+        if ($scope.currentPage < $scope.numberOfPages()) {
+          $scope.currentPage++;
+        };
+      };
+
+      $scope.isFirstPage = function() {
+        return ($scope.currentPage === 0);
+      };
+
+      $scope.isLastPage = function() {
+        return ($scope.currentPage === $scope.numberOfPages() - 1);
+      };
+
+      $scope.advancePageInSteps = function(steps) {
+        $scope.currentPage += steps;
+      };
+
+      $scope.goToPage = function(page) {
+        if(page == 'first') {
+          $scope.currentPage = 0;
+        }
+        if(page == 'last') {
+          $scope.currentPage = $scope.numberOfPages() - 1;
+        }
+      };
+    }
+  };
 });

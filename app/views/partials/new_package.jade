@@ -1,12 +1,50 @@
-form(name="form" class="css-form" novalidate, ng-controller="newPackageCtrl")
-  ul.libs-js
-    li(ng-repeat="lib in libs")
-      label
-        input(type="checkbox", value="{{lib._id}}")
-        {{lib.name}}
+#myModal.asset-creation.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true',  ng-controller="newPackageCtrl")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        h4#myModalLabel.modal-title Create new asset
+      .modal-body.assets-selection
+        .input-group.mb50
+          span.input-group-addon @
+          input.form-control(type='text', placeholder='Input your email...')
 
-  ul.libs-css
-    li(ng-repeat="lib in libs")
-      label
-        input(type="checkbox", value="{{lib._id}}")
-        {{lib.name}}
+        .search-input-container.input-group.mb50
+          span.input-group-addon
+            span.glyphicon.glyphicon-search
+          input.search-input.form-control(type='text', placeholder='Search...', ng-model='queryLib')
+        form.package-form(name="form" class="css-form" novalidate)
+          .panel.panel-default
+            table.table.table-striped.form-items
+              thead
+                tr
+                  td Item Name
+              tbody
+                tr.form-item(ng-repeat="lib in filtered = (libs | filter:{name: queryLib}) | startFrom:currentPage*pageSize | limitTo:pageSize"
+                   ng-class="{success: lib.selected}" ng-click="lib.selected = !lib.selected" style="cursor: pointer;")
+                  td
+                    label
+                      input.package-form-item-input(type="checkbox", value="{{lib._id}}" ng-model="lib.selected")
+                      {{lib.name}}
+
+          ul.pagination
+            li(ng-click="goToPage('first')" ng-class="{disabled: isFirstPage()}")
+              a Fist
+            li(ng-click="goBackOnePage()" ng-class="{disabled: isFirstPage()}")
+              a «
+            li(ng-click="advancePageInSteps(-2)" ng-if="currentPage-1 > 0")
+              a {{currentPage-1}}
+            li(ng-click="advancePageInSteps(-1)" ng-if="currentPage > 0")
+              a {{currentPage}}
+            li(class="active")
+              a {{currentPage+1}}
+            li(ng-click="advancePageInSteps(+1)" ng-if="currentPage < numberOfPages() - 2")
+              a {{currentPage+2}}
+            li(ng-click="advancePageInSteps(+2)" ng-if="currentPage < numberOfPages() - 1")
+              a {{currentPage+3}}
+            li(ng-click="goForwardOnePage()" ng-class="{disabled: isLastPage()}")
+              a »
+            li(ng-click="goToPage('last')" ng-class="{disabled: isLastPage()}")
+              a Last
+      .modal-footer
+        button.btn.btn-primary(type="button" ng-click="create()" data-dismiss="modal") Pack!
