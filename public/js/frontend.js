@@ -137,7 +137,13 @@ assetline.directive('packageCreationModal', function(){
     link: function(scope, elm){
       $('#myModal').on('shown.bs.modal', function () {
         $('.search-input.form-control').focus();
-      })
+      });
+
+      $('#myModal').on('hidden.bs.modal', function () {
+        scope.$apply(function(){
+          scope.queryLib = '';
+        });
+      });
     },
     controller: function($scope){
       $scope.currentPage = 0;
