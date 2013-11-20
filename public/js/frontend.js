@@ -23,12 +23,17 @@ assetline.controller('popularCtrl', function($scope, $http){
 
   $http.get('/packages').success(function(data){
     $scope.packages = data.packages;
+    console.log($scope.packages);
   });
 
   $scope.namesForPackage = function(pack){
     var names = [];
     angular.forEach(pack.libs, function(lib){
-      names.push(lib.name + '#' + lib.version);
+      if(lib.version) {
+        names.push(lib.name + '#' + lib.version);
+      }
+      else
+        names.push(lib.name);
     });
     return names.join(', ');
   };
@@ -83,9 +88,6 @@ assetline.controller('newPackageCtrl', function($scope, $http){
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
 
-    $scope.numberOfPages = function(){
-      return Math.ceil($scope.filtered.length/$scope.pageSize);
-    };
 
     $scope.$watch('queryLib', function(){
       $scope.currentPage = 0;
@@ -93,13 +95,65 @@ assetline.controller('newPackageCtrl', function($scope, $http){
     });
   });
 
+  $scope.numberOfPages = function() {
+    if(!$scope.filtered)
+      return 0;
+    return Math.ceil($scope.filtered.length/$scope.pageSize);
+  };
+
   $scope.create = function(){
+    var selectedLibs = $scope.libs.filter(function(lib) {
+      return lib.selected;
+    });
+
     var package = {
-      libs: [$scope.libs[0]]
+      libs: selectedLibs
     };
+
+    $('#myModal').modal('hide');
+
+    $scope.queryLib = "";
+
+    var uncheckLibs = $scope.libs.filter(function(lib) {
+      return lib.selected = false;
+    });
+
     $http.post('/packages', package).success(function(data){
       Packages.push(data);
     });
+  };
+
+  $scope.goBackOnePage = function() {
+    if ($scope.currentPage > 0) {
+      $scope.currentPage--;
+    };
+  };
+
+  $scope.goForwardOnePage = function() {
+    if ($scope.currentPage < $scope.numberOfPages()) {
+      $scope.currentPage++;
+    };
+  };
+
+  $scope.isFirstPage = function() {
+    return ($scope.currentPage === 0);
+  };
+
+  $scope.isLastPage = function() {
+    return ($scope.currentPage === $scope.numberOfPages() - 1);
+  };
+
+  $scope.advancePageInSteps = function(steps) {
+    $scope.currentPage += steps;
+  };
+
+  $scope.goToPage = function(page) {
+    if(page == 'first') {
+      $scope.currentPage = 0;
+    }
+    if(page == 'last') {
+      $scope.currentPage = $scope.numberOfPages() - 1;
+    }
   };
 });
 

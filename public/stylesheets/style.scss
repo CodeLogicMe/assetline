@@ -48,6 +48,26 @@ a {
   }
 }
 
+// .form-items {
+//   &:first-child {
+//     td {
+//       border-top: 0;
+//     }
+//   }
+// }
+
+.package-form {
+  text-align: center;
+
+  .form-items {
+    text-align: left;
+  }
+}
+
+.package-form-item-input[type="checkbox"] {
+  margin: 0 22px 0 6px;
+}
+
 .results-table {
   text-align: left;
   overflow: hidden;

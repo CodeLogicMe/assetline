@@ -33,6 +33,14 @@ a {
     right: 10px;
     line-height: 34px; }
 
+.package-form {
+  text-align: center; }
+  .package-form .form-items {
+    text-align: left; }
+
+.package-form-item-input[type="checkbox"] {
+  margin: 0 22px 0 6px; }
+
 .results-table {
   text-align: left;
   overflow: hidden; }
