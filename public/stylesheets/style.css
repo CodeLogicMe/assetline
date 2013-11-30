@@ -8,12 +8,12 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff; }
 
 .header {
   margin-bottom: 80px !important; }
   .header h1 {
-    color: #333; }
+    color: #333333; }
 
 .asset-creation .assets-selection {
   text-align: left !important; }
@@ -62,3 +62,6 @@ a {
     width: 5%; }
   .results-table .table-dl {
     width: 5%; }
+
+.pagination a {
+  cursor: pointer; }
