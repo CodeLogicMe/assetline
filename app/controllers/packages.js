@@ -21,9 +21,9 @@ exports.create = function(db){
     new PackageCreation(req.body).run(function(package){
       res.send(201, package);
     }, function(err){
+      console.log(err);
       if (err.code === 'ECONFLICT') {
-        console.log('Bower: cound`t resolve dependencies');
-        res.send(500, 'Bower: cound`t resolve dependencies');
+        res.send(500, 'Bower: couldn`t resolve dependencies');
       } else {
         res.send(500, err);
       };

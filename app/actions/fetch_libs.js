@@ -55,7 +55,14 @@ FetchLibs.prototype.$findFileNames = function(onEnd){
     };
 
   async.eachLimit(this.libs, 1, function(lib, asyncFinish){
-    that.$findByMain(lib, appendFiles, that.$findByName, asyncFinish);
+    that.$findByMain(
+      lib,
+      appendFiles,
+      function(lib, whenDone, asyncFinish){
+        that.$findByName(lib, appendFiles, asyncFinish);
+      },
+      asyncFinish
+    );
   }, function(err){
     onEnd(result);
   });
@@ -80,12 +87,15 @@ FetchLibs.prototype.$addFullPathToFiles = function(libPath, files){
   if (typeof files === 'string'){
     return libPath + files.replace(/\.\//, '');
   } else {
-    // return bowerPath +
+    return _.map(files, function(file){
+      return libPath + files.replace(/\.\//, '');
+    });
   };
 };
 
 FetchLibs.prototype.$findByName = function(lib, whenDone, asyncFinish){
-  exec(that.$lsRecursiveCmd(lib),
+  var that = this;
+  exec(this.$lsRecursiveCmd(lib),
     function(error, stdout, stderr){
       if (error !== null) {
         console.log('exec error: ' + error);
@@ -108,7 +118,8 @@ FetchLibs.prototype.$getFiles = function(lib, listOfFiles){
 };
 
 FetchLibs.prototype.$getNamedFile = function(libName){
-  filePath += libName + '/' + libName + '.js';
+  var qualifiedName = libName.replace(/^./, '');
+  var filePath = bowerPath + libName + '/' + qualifiedName + '.js';
   return (fs.existsSync(filePath) ? filePath : null);
 };
 
@@ -116,7 +127,7 @@ FetchLibs.prototype.$parseDistributionFilesPaths = function(libName, listOfFiles
   var files = listOfFiles.split('\n');
   var matches, filesFound = [];
   _.each(files, function(file){
-    matches = file.match(/\/(dist|modules).+?.js$/);
+    matches = file.match(/.+?\/(dist|modules).+?.js$/);
     if (matches)
       filesFound.push(matches[0]);
   });
