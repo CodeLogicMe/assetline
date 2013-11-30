@@ -4,13 +4,15 @@ var bower = require('bower');
 var _ = require('lodash');
 var fs = require('fs');
 
+var bowerPath = __dirname.replace('app/actions', 'bower_components/');
+
 function FetchLibs(libs){
   this.libs = libs;
 };
 
-FetchLibs.prototype.run = function(onEnd){
+FetchLibs.prototype.run = function(onEnd, onShit){
   var libs = this.$bowerNames(this.libs);
-  this.$install(libs, onEnd);
+  this.$install(libs, onEnd, onShit);
 };
 
 FetchLibs.prototype.$bowerNames = function(libs){
@@ -25,52 +27,89 @@ FetchLibs.prototype.$bowerNames = function(libs){
   });
 };
 
-FetchLibs.prototype.$install = function(libs, onEnd){
+FetchLibs.prototype.$install = function(libs, onEnd, onShit){
   var that = this;
   bower.commands.install(libs, {}, {})
-  .on('error', this.$logToFile)
-  .on('end', function(){
-    that.$findFileNames(onEnd)
+  .on('error', function(err){
+    that.$logToFile(err);
+    onShit(err);
+  }).on('end', function(){
+    that.$findFileNames(onEnd);
   });
 };
 
 FetchLibs.prototype.$findFileNames = function(onEnd){
   var that = this
-    , result = [];
+    , result = []
+    , appendFiles = function(files, asyncFinish){
+      console.log(files);
+      if (typeof files === 'string'){
+        result.push(files);
+      } else {
+        _.each(files, function(file){
+          result.push(file);
+        });
+      };
+
+      asyncFinish();
+    };
+
   async.eachLimit(this.libs, 1, function(lib, asyncFinish){
-    exec(that.$lsRecursiveCmd(lib),
-      function(error, stdout, stderr){
-        if (error !== null) {
-          console.log('exec error: ' + error);
-          return;
-        };
-        result.push(that.$getFiles(lib, stdout));
-        asyncFinish();
-      }
-    );
+    that.$findByMain(lib, appendFiles, that.$findByName, asyncFinish);
   }, function(err){
     onEnd(result);
   });
 };
 
-FetchLibs.prototype.$getFiles = function(lib, listOfFiles){
-  if (this.$mainFileExist(lib.name)) {
-    return {
-      name: lib.name,
-      files: [lib.name]
-    };
+FetchLibs.prototype.$findByMain = function(lib, whenDone, whenNotFound, asyncFinish){
+  var libPath = bowerPath + lib.name + '/';
+  var file = fs.readFileSync(libPath + '/.bower.json');
+  var bowerConfig = JSON.parse(file);
+  var files;
+  // console.log('main -> ', bowerConfig);
+
+  if (bowerConfig.main){
+    files = this.$addFullPathToFiles(libPath, bowerConfig.main);
+    whenDone(files, asyncFinish);
   } else {
-    return {
-      name: lib.name,
-      files: this.$parseDistributionFilesPaths(lib.name, listOfFiles)
-    };
-  }
+    whenNotFound(lib, whenDone, asyncFinish);
+  };
 };
 
-FetchLibs.prototype.$mainFileExist = function(libName){
-  var filePath = __dirname.replace('app/actions', 'bower_components/');
+FetchLibs.prototype.$addFullPathToFiles = function(libPath, files){
+  if (typeof files === 'string'){
+    return libPath + files.replace(/\.\//, '');
+  } else {
+    // return bowerPath +
+  };
+};
+
+FetchLibs.prototype.$findByName = function(lib, whenDone, asyncFinish){
+  exec(that.$lsRecursiveCmd(lib),
+    function(error, stdout, stderr){
+      if (error !== null) {
+        console.log('exec error: ' + error);
+        return;
+      };
+
+      whenDone(that.$getFiles(lib, stdout), asyncFinish);
+    }
+  );
+};
+
+FetchLibs.prototype.$getFiles = function(lib, listOfFiles){
+  var namedFile = this.$getNamedFile(lib.name);
+
+  if (namedFile) {
+    return [namedFile];
+  } else {
+    return this.$parseDistributionFilesPaths(lib.name, listOfFiles);
+  };
+};
+
+FetchLibs.prototype.$getNamedFile = function(libName){
   filePath += libName + '/' + libName + '.js';
-  return fs.existsSync(filePath);
+  return (fs.existsSync(filePath) ? filePath : null);
 };
 
 FetchLibs.prototype.$parseDistributionFilesPaths = function(libName, listOfFiles){

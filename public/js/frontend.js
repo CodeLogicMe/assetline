@@ -23,7 +23,6 @@ assetline.controller('popularCtrl', function($scope, $http){
 
   $http.get('/packages').success(function(data){
     $scope.packages = data.packages;
-    console.log($scope.packages);
   });
 
   $scope.namesForPackage = function(pack){
@@ -97,12 +96,14 @@ assetline.controller('newPackageCtrl', function($scope, $http){
 
     $scope.queryLib = '';
 
-    angular.forEach(selectedLibs, function(lib) {
-      return lib.selected = false;
+    $http.post('/packages', package).success(function(data){
+      // Packages.push(data);
+    }).error(function(err){
+      alert(err);
     });
 
-    $http.post('/packages', package).success(function(data){
-      Packages.push(data);
+    angular.forEach(selectedLibs, function(lib) {
+      return lib.selected = false;
     });
   };
 });
@@ -126,7 +127,7 @@ assetline.filter('withHost', function($location) {
          + $location.port()
          + '/'
          + input;
-  }
+  };
 });
 
 assetline.directive('packageCreationModal', function(){

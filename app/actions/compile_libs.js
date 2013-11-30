@@ -2,23 +2,17 @@ var _ = require('lodash');
 var fs = require('fs')
 var UglifyJS = require("uglify-js");
 
-function CompileLibs(libs) {
-  this.libs = libs;
+function CompileLibs(files) {
+  this.files = files;
   this.filesTypes = ['js'];
+  console.log(this.files);
 };
 
 CompileLibs.prototype.run = function(){
   var that = this;
   var bowerDir = this.$bowerDir();
-  var files = [];
-  _.each(this.libs, function(lib){
-    _.each(lib.files, function(file){
-      files.push(that.$getFullPath(bowerDir, lib.name, file));
-    });
-  });
 
-  // console.log(files);
-  var result = UglifyJS.minify(files);
+  var result = UglifyJS.minify(this.files);
   var savedFiles = this.$saveFiles([result]);
   // console.log(savedFiles);
 
@@ -40,8 +34,8 @@ CompileLibs.prototype.$randomID = function(files){
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-  for( var i=0; i < 32; i++ )
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  for(var i=0; i < 32; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
 
   return text;
 }

@@ -77,11 +77,9 @@ a {
 
   .table-tag {
     width: 1%;
-    // padding: 0 !important;
   }
   .table-head-tag {
     width: 1%;
-    // padding: 0 !important;
   }
   .table-name {
     width: 20%;
@@ -98,4 +96,8 @@ a {
   .table-dl {
     width: 5%;
   }
+}
+
+.pagination a {
+  cursor:pointer;
 }
