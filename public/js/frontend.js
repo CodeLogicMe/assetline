@@ -120,13 +120,8 @@ assetline.filter('startFrom', function() {
 
 assetline.filter('withHost', function($location) {
   return function(input) {
-    return $location.protocol()
-         + '://'
-         + $location.host()
-         + ':'
-         + $location.port()
-         + '/'
-         + input;
+    var absUrl = $location.absUrl().replace(/\/\#\/$/, '');
+    return absUrl + '/' + input;
   };
 });
 
