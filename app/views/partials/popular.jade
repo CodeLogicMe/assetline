@@ -11,13 +11,13 @@ a.asset-creation-btn.btn.btn-success.btn-block.mb50(data-toggle='modal', data-ta
       tr
         td.table-head-tag
         td.table-name Name
-        td.table-upd Updated
+        td.table-upd Created
         td.table-dl Downloads
     tbody
       tr(ng-repeat="item in packages | filter:query", ng-animate="'animate'")
         td.table-tag
         td.table-name {{namesForPackage(item)}}
-        td.table-upd {{item.updated_at}}
+        td.table-upd {{item.created_at}}
         td.table-dl 19283
         td.table-dl
           copy-to-clipboard(text="{{item.url | withHost}}") Copy to Clipboard
