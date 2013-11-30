@@ -144,7 +144,7 @@ assetline.directive('packageCreationModal', function(){
     controller: function($scope){
       $scope.currentPage = 0;
       $scope.pageSize = 10;
-      $scope.maxSize = 5; //pagination max size
+      $scope.maxSize = 5;
 
       $scope.$watch('queryLib', function(){
         $scope.currentPage = 0;
@@ -189,6 +189,33 @@ assetline.directive('packageCreationModal', function(){
           $scope.currentPage = $scope.numberOfPages() - 1;
         }
       };
+    }
+  };
+});
+
+assetline.directive('copyToClipboard', function(){
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      value: '@text'
+    },
+    template: '<button class="copy-button"' +
+      'data-clipboard-text="{{value}}"' +
+      'data-copied-hint="copied!"' +
+      'title="copy to clipboard">' +
+      'Copy Url' +
+    '</button>',
+    link: function(scope, elm){
+      var clip = new ZeroClipboard(
+        elm, {moviePath: "/js/ZeroClipboard.swf"}
+      );
+
+      clip.on('load', function(client) {
+        client.on('complete', function(client, args) {
+          alert('Copied text to clipboard: ' + args.text);
+        });
+      });
     }
   };
 });

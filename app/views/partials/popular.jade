@@ -19,7 +19,8 @@ a.asset-creation-btn.btn.btn-success.btn-block.mb50(data-toggle='modal', data-ta
         td.table-name {{namesForPackage(item)}}
         td.table-upd {{item.updated_at}}
         td.table-dl 19283
-        td.table-dl {{item.url | withHost}}
+        td.table-dl
+          copy-to-clipboard(text="{{item.url | withHost}}") Copy to Clipboard
 ul.pagination.mb50
     li
       a(href='#') «
