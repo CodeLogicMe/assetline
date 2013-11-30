@@ -35,6 +35,9 @@ a {
     right: 10px;
     line-height: 34px; }
 
+.pagination {
+  margin: 0; }
+
 .package-form {
   text-align: center; }
   .package-form .form-items {
