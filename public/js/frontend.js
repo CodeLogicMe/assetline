@@ -102,7 +102,7 @@ assetline.controller('newPackageCtrl', function($scope, $http){
     });
 
     $http.post('/packages', package).success(function(data){
-      Packages.push(data);
+      // Packages.push(data);
     });
   };
 });

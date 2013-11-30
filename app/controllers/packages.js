@@ -20,6 +20,8 @@ exports.create = function(db){
 
     new PackageCreation(req.body).run(function(package){
       res.send(201, package);
+    }, function(err){
+      res.send(500, err);
     });
   };
 };
