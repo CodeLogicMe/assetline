@@ -29,7 +29,7 @@
 
           ul.pagination
             li(ng-click="goToPage('first')" ng-class="{disabled: isFirstPage()}")
-              a Fist
+              a First
             li(ng-click="goBackOnePage()" ng-class="{disabled: isFirstPage()}")
               a «
             li(ng-click="advancePageInSteps(-2)" ng-if="currentPage-1 > 0")
