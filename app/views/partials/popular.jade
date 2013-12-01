@@ -20,7 +20,7 @@ a.asset-creation-btn.btn.btn-success.btn-block.mb50(data-toggle='modal', data-ta
         td.table-upd {{item.created_at}}
         td.table-dl 19283
         td.table-dl
-          copy-to-clipboard(text="{{item.url | withHost}}") Copy to Clipboard
+          copy-to-clipboard.btn.btn-primary(text="{{item.url | withHost}}") Copy to Clipboard
 ul.pagination.mb50
   li
     a(href='#') «
