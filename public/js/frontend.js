@@ -193,7 +193,14 @@ assetline.directive('packageCreationModal', function(){
   };
 });
 
-assetline.directive('copyToClipboard', function(){
+assetline.directive('copyToClipboard', function($compile){
+  var copiedNotificationTpl = angular.element('<div class="copy-notification alert alert-success fade">' +
+    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+    'The package url is in your clipboard. <strong>Happy Hacking!</strong>' +
+  '</div>');
+
+  var notificationElm;
+
   return {
     restrict: 'E',
     replace: true,
@@ -206,14 +213,23 @@ assetline.directive('copyToClipboard', function(){
       'title="copy to clipboard">' +
       'Copy Url' +
     '</button>',
+    controller: function($scope){
+      notificationElm = $compile(copiedNotificationTpl)($scope);
+      $('body').prepend(notificationElm);
+    },
     link: function(scope, elm){
       var clip = new ZeroClipboard(
         elm, {moviePath: "/js/ZeroClipboard.swf"}
       );
 
-      clip.on('load', function(client) {
-        client.on('complete', function(client, args) {
-          alert('Copied text to clipboard: ' + args.text);
+      var hideNotification = function(){
+        notificationElm.removeClass('in');
+      };
+
+      clip.on('load', function(client){
+        client.on('complete', function(client, args){
+          notificationElm.addClass('in');
+          setTimeout(hideNotification, 2000);
         });
       });
     }

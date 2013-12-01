@@ -101,3 +101,15 @@ a {
 .pagination a {
   cursor:pointer;
 }
+
+.copy-notification {
+  top:50%;
+  left:50%;
+  z-index:9;
+  position:fixed;
+  margin:-100px 0 0 -200px;
+
+  button {
+    margin-left:10px;
+  }
+}
