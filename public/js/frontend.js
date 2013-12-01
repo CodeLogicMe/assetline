@@ -207,7 +207,7 @@ assetline.directive('copyToClipboard', function($compile){
     scope: {
       value: '@text'
     },
-    template: '<button class="copy-button"' +
+    template: '<button class="copy-button btn btn-primary"' +
       'data-clipboard-text="{{value}}"' +
       'data-copied-hint="copied!"' +
       'title="copy to clipboard">' +
