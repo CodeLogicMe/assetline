@@ -120,13 +120,8 @@ assetline.filter('startFrom', function() {
 
 assetline.filter('withHost', function($location) {
   return function(input) {
-    return $location.protocol()
-         + '://'
-         + $location.host()
-         + ':'
-         + $location.port()
-         + '/'
-         + input;
+    var absUrl = $location.absUrl().replace(/\/\#\/$/, '');
+    return absUrl + '/' + input;
   };
 });
 
@@ -149,7 +144,7 @@ assetline.directive('packageCreationModal', function(){
     controller: function($scope){
       $scope.currentPage = 0;
       $scope.pageSize = 10;
-      $scope.maxSize = 5; //pagination max size
+      $scope.maxSize = 5;
 
       $scope.$watch('queryLib', function(){
         $scope.currentPage = 0;
@@ -194,6 +189,49 @@ assetline.directive('packageCreationModal', function(){
           $scope.currentPage = $scope.numberOfPages() - 1;
         }
       };
+    }
+  };
+});
+
+assetline.directive('copyToClipboard', function($compile){
+  var copiedNotificationTpl = angular.element('<div class="copy-notification alert alert-success fade">' +
+    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+    'The package url is in your clipboard. <strong>Happy Hacking!</strong>' +
+  '</div>');
+
+  var notificationElm;
+
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      value: '@text'
+    },
+    template: '<button class="copy-button"' +
+      'data-clipboard-text="{{value}}"' +
+      'data-copied-hint="copied!"' +
+      'title="copy to clipboard">' +
+      'Copy Url' +
+    '</button>',
+    controller: function($scope){
+      notificationElm = $compile(copiedNotificationTpl)($scope);
+      $('body').prepend(notificationElm);
+    },
+    link: function(scope, elm){
+      var clip = new ZeroClipboard(
+        elm, {moviePath: "/js/ZeroClipboard.swf"}
+      );
+
+      var hideNotification = function(){
+        notificationElm.removeClass('in');
+      };
+
+      clip.on('load', function(client){
+        client.on('complete', function(client, args){
+          notificationElm.addClass('in');
+          setTimeout(hideNotification, 2000);
+        });
+      });
     }
   };
 });

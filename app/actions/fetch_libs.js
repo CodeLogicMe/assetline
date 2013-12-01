@@ -42,7 +42,6 @@ FetchLibs.prototype.$findFileNames = function(onEnd){
   var that = this
     , result = []
     , appendFiles = function(files, asyncFinish){
-      console.log(files);
       if (typeof files === 'string'){
         result.push(files);
       } else {
@@ -88,7 +87,7 @@ FetchLibs.prototype.$addFullPathToFiles = function(libPath, files){
     return libPath + files.replace(/\.\//, '');
   } else {
     return _.map(files, function(file){
-      return libPath + files.replace(/\.\//, '');
+      return libPath + file.replace(/\.\//, '');
     });
   };
 };

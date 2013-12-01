@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express')
   , http = require('http')
   , path = require('path');
@@ -33,9 +28,9 @@ app.configure('development', function(){
 });
 
 app.configure('production', function(){
-  config.setProductionConfig();
-  console.log(config.DatabaseConfig);
-  console.log(config.EnvConfig);
+  // config.setProductionConfig();
+  // console.log(config.DatabaseConfig);
+  // console.log(config.EnvConfig);
 
   app.use(express.errorHandler());
 });
