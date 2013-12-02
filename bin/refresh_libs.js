@@ -21,11 +21,14 @@ function refreshLibs () {
 };
 
 function checkBowerFile (url, lib) {
-  request(url, function (error, response, body) {
+  request({uri:url,json:true}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       if (body.main === undefined) {
         console.log('deleting -> ', lib.name);
         libsCollection.remove(lib.id);
+      }
+      else {
+        console.log(body.main);
       }
     };
   });
