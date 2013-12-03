@@ -86,7 +86,7 @@ assetline.controller('newLibCtrl', function($scope, $http){
   };
 });
 
-assetline.controller('newPackageCtrl', function($scope, $http, Packages){
+assetline.controller('newPackageCtrl', function($rootScope, $scope, $http, Packages){
   $scope.libs = [];
 
   $http.get('/libs').success(function(data){
@@ -94,23 +94,32 @@ assetline.controller('newPackageCtrl', function($scope, $http, Packages){
   });
 
   $scope.create = function(){
-    var selectedLibs = $scope.libs.filter(function(lib) {
-      return lib.selected;
-    });
-
     var package = {
-      libs: selectedLibs
+      libs: $scope.selectedLibs()
     };
 
     $scope.queryLib = '';
 
     $http.post('/packages', package).success(function(data){
+      $rootScope.$broadcast('packaged-created');
       Packages.list.push(data);
     }).error(function(err){
       alert(err);
     });
 
-    angular.forEach(selectedLibs, function(lib) {
+    $rootScope.$broadcast('packaged-pushed');
+
+    $scope.unselectPreviousLibs();
+  };
+
+  $scope.selectedLibs = function(){
+    return $scope.libs.filter(function(lib) {
+      return lib.selected;
+    });
+  };
+
+  $scope.unselectPreviousLibs = function(){
+    angular.forEach($scope.selectedLibs(), function(lib) {
       return lib.selected = false;
     });
   };
@@ -133,15 +142,19 @@ assetline.filter('withHost', function($location) {
   };
 });
 
-assetline.directive('pleaseWaitDialog', function(){
+assetline.directive('pleaseWaitDialog', function($rootScope){
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/partials/loading',
     link: function(scope, elm){
-      scope.$watch('', function(){
+      $rootScope.$on('packaged-pushed', function(){
         elm.modal();
-      })
+      });
+
+      $rootScope.$on('packaged-created', function(){
+        elm.modal('hide');
+      });
     }
   };
 });
