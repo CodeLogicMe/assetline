@@ -24,13 +24,15 @@ function checkBowerFile (url, lib) {
   request({uri:url,json:true}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       try {
-        json = JSON.parse(body);
-        if (json.main) {
+
+        if (hasAValidMain(body)) {
           setAsActive(lib);
         } else {
           setAsInactive(lib);
         };
       } catch (exception) {
+        console.log(exception);
+        console.log(body);
         setAsInactive(lib);
       };
     };
@@ -38,16 +40,30 @@ function checkBowerFile (url, lib) {
 };
 
 function setAsActive(lib){
-  console.log('Deactivating -> ', lib._id, lib.name);
+  console.log('Activating -> ', lib._id, lib.name);
   lib.active = true;
   libsCollection.findAndUpdate(lib._id, lib);
 };
 
 function setAsInactive(lib){
-  console.log('Activating -> ', lib._id, lib.name);
+  console.log('Deactivating -> ', lib._id, lib.name);
   lib.active = false;
   libsCollection.findAndUpdate(lib._id, lib);
 };
+
+function hasAValidMain(bowerFile){
+  if (bowerFile.main) {
+    if (typeof bowerFile.main === 'string' &&
+        bowerFile.main.match(/\.js$/)){
+      return true;
+    }
+    return _.any(bowerFile.main, function(file){
+      return file.match(/\.js$/);
+    });
+  }
+
+  return false;
+}
 
 function buildBowerDotJsonUrl (url) {
   var final_url = "";
