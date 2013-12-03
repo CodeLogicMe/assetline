@@ -13,7 +13,7 @@ exports.list = function(db){
   return function(req, res){
     req.accepts('application/json');
 
-    new Libs(db).findAll(function(libs){
+    new Libs(db).findAllActives(function(libs){
       libs.sort(function(a, b){
         if (a.name < b.name)
           return -1;

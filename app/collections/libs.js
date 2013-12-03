@@ -8,6 +8,20 @@ Libs.prototype.findAll = function(callback){
   });
 };
 
+Libs.prototype.where = function(args, callback){
+  this.collection.find(args, function(err, items){
+    callback(items);
+  });
+};
+
+Libs.prototype.findAllActives = function(callback){
+  this.where({active:true}, callback);
+};
+
+Libs.prototype.findAllInactives = function(callback){
+  this.where({active:false}, callback);
+};
+
 Libs.prototype.findByName = function(name, callback){
   this.collection.find({name: name}, function(err, items){
     callback(items);
