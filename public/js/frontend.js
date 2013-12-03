@@ -18,10 +18,18 @@ assetline.config(function($routeProvider){
   });
 });
 
-assetline.controller('popularCtrl', function($scope, $http){
+assetline.factory('Packages', function(){
+  var packagesService = {};
+  packagesService.list = []
+
+  return packagesService;
+});
+
+assetline.controller('popularCtrl', function($scope, $http, Packages){
   $scope.query;
 
   $http.get('/packages').success(function(data){
+    Packages.list = data.packages;
     $scope.packages = data.packages;
   });
 
@@ -78,7 +86,7 @@ assetline.controller('newLibCtrl', function($scope, $http){
   };
 });
 
-assetline.controller('newPackageCtrl', function($scope, $http){
+assetline.controller('newPackageCtrl', function($scope, $http, Packages){
   $scope.libs = [];
 
   $http.get('/libs').success(function(data){
@@ -97,7 +105,7 @@ assetline.controller('newPackageCtrl', function($scope, $http){
     $scope.queryLib = '';
 
     $http.post('/packages', package).success(function(data){
-      // Packages.push(data);
+      Packages.list.push(data);
     }).error(function(err){
       alert(err);
     });
@@ -122,6 +130,19 @@ assetline.filter('withHost', function($location) {
   return function(input) {
     var absUrl = $location.absUrl().replace(/\/\#\/$/, '');
     return absUrl + '/' + input;
+  };
+});
+
+assetline.directive('pleaseWaitDialog', function(){
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: '/partials/loading',
+    link: function(scope, elm){
+      scope.$watch('', function(){
+        elm.modal();
+      })
+    }
   };
 });
 
