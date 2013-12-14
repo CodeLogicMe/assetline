@@ -20,7 +20,7 @@
                 tr
                   td Item Name
               tbody
-                tr.form-item(ng-repeat="lib in filtered = (libs | filter:{name: queryLib}) | startFrom:currentPage*pageSize | limitTo:pageSize"
+                tr.form-item(ng-repeat="lib in libsFiltered | startFrom:currentPage*pageSize | limitTo:pageSize"
                    ng-class="{success: lib.selected}" ng-click="lib.selected = !lib.selected" style="cursor: pointer;")
                   td
                     label

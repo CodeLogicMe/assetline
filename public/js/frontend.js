@@ -91,11 +91,35 @@ assetline.controller('newPackageCtrl', function($rootScope, $scope, $http, Packa
 
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
+
+    // console.log($scope.libs);
+
+    var libsNamesList = getAllNames();
+
+    $scope.$watch("queryLib", function(val, old) {
+      if(val === undefined) {
+        console.log("UNDEFINED MY ASS!");
+      };
+      $scope.libsFiltered = fuzzySearch.findPatterns(val, libsNamesList);
+    });
   });
 
+  getAllNames = function() {
+    var array = [];
+
+    $scope.libs.forEach(function(lib) {
+      array.push(lib.name);
+    });
+
+    return array;
+  };
+
+  var getAllNames;
+
+
   $scope.create = function(){
-    var package = {
-      libs: $scope.selectedLibs()
+      var package = {
+        libs: $scope.selectedLibs()
     };
 
     $scope.queryLib = '';
