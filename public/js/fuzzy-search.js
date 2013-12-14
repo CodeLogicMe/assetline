@@ -4,14 +4,54 @@ window.fuzzySearch = {
 
     name.forEach(function(string, index) {
       var stringIndex   = 0,
-          query         = pattern === undefined ? "" : pattern.replace(/\s+/g, '').split(''),
+          lastSearch     = 0,
+          query         = pattern.replace(/\s+/g, '').split(''),
           queryIndex    = 0,
           matchPos      = [],
           nameObj       = fuzzySearch.makeNameObj(string),
-          priorityMatch = false,
-          otherMatch    = false,
-          giveUpUpper   = false,
+          priorityMatch = true,
           giveUp        = false;
+
+      while(query.length > 0) {
+        if(priorityMatch) {
+          //find uppercase matches (later, look for possible section starters)
+          lastSearch = lookUpper(stringIndex, nameObj, query[queryIndex]);
+
+          if(lastSearch === -1) {
+            lastSearch = lookAny(stringIndex + 1, nameObj, query[queryIndex]);
+            if(lastSearch === -1) {
+              priorityMatch = false;
+              query         = pattern.replace(/\s+/g, '').split('');
+              matchPos.length = 0;
+              stringIndex = 0;
+            }
+            else {
+              stringIndex = lastSearch;
+              matchPos.push(stringIndex);
+              query.splice(queryIndex,1);
+            }
+
+          }
+          else {
+            stringIndex = lastSearch;
+            matchPos.push(stringIndex);
+            query.splice(queryIndex,1);
+          }
+        }
+
+        else {
+          lastSearch = lookAny(stringIndex + 1, nameObj, query[queryIndex]);
+          if(lastSearch === -1) {
+            giveUp = true;
+            break;
+          }
+          else {
+            stringIndex = lastSearch;
+            matchPos.push(stringIndex);
+            query.splice(queryIndex,1);
+          }
+        }
+      }
 
       var matchedObj = {
         name: string,
@@ -21,65 +61,31 @@ window.fuzzySearch = {
         totalWeight: 0
       }
 
-      if(pattern === undefined) {
-        matches.push(matchedObj);
-      };
-
-      while(query.length > 0) {
-        if(!priorityMatch && !giveUpUpper) {
-          //find uppercase matches (later, look for possible section starters)
-          while(stringIndex < nameObj.length) {
-            if(nameObj[stringIndex].c.toLowerCase() === query[queryIndex].toLowerCase() && nameObj[stringIndex].beginSection) {
-              matchPos.push(stringIndex);
-              query.splice(queryIndex,1);
-              priorityMatch = true;
-              break;
-            } else stringIndex++;
-          }
-
-          if (!priorityMatch) {
-            giveUpUpper = true;
-            stringIndex = 0;
-          }
-          else {
-            stringIndex = matchPos[matchPos.length - 1] + 1; //gets index of last element added to list of matches
-            priorityMatch = false; //reset search
-          }
-        }
-
-        if(giveUpUpper) {
-          while(stringIndex < nameObj.length) {
-            if(nameObj[stringIndex].c.toLowerCase() === query[queryIndex].toLowerCase()) {
-              matchPos.push(stringIndex);
-              query.splice(queryIndex,1);
-              otherMatch = true;
-              giveUpUpper = false; //reset upper search
-              break;
-            } else stringIndex++;
-          }
-
-          if(!otherMatch) {
-            giveUp = true;
-          }
-          else {
-            stringIndex = matchPos[matchPos.length - 1] + 1; //gets index of last element added to list of matches
-            otherMatch = false; //reset search
-          }
-        }
-
-        if(giveUp)
-          break;
-      }
       if(giveUp === false)
         matches.push(matchedObj);
     });
 
-    if(pattern === undefined) {
-      return matches;
+    function lookUpper(index, nameObject, queryItem) {
+      while(index < nameObject.length) {
+        if(nameObject[index].c.toLowerCase() === queryItem.toLowerCase() && nameObject[index].beginSection) {
+          return index;
+        }
+        index++;
+      }
+      return -1;
     }
-    else{
-      return fuzzySearch.calculateRank(matches).sort(fuzzySearch.compareRank);
+
+    function lookAny(index, nameObject, queryItem) {
+      while(index < nameObject.length) {
+        if(nameObject[index].c.toLowerCase() === queryItem.toLowerCase()) {
+          return index;
+        }
+        index++;
+      }
+      return -1;
     }
+
+    return fuzzySearch.calculateRank(matches).sort(fuzzySearch.compareRank);
   },
 
   calculateRank: function(matches) {
@@ -106,6 +112,8 @@ window.fuzzySearch = {
           match.nameObj[elem].weight = 10 - elem;
           match.totalWeight += match.nameObj[elem].weight;
         }
+
+        match.totalWeight -= ((match.name.length - 1) - match.matchPos[match.matchPos.length - 1]);
       });
     });
 
