@@ -87,20 +87,24 @@ assetline.controller('newLibCtrl', function($scope, $http){
 });
 
 assetline.controller('newPackageCtrl', function($rootScope, $scope, $http, Packages){
+
   $scope.libs = [];
 
   $http.get('/libs').success(function(data){
     $scope.libs = data.libs;
 
-    // console.log($scope.libs);
-
     var libsNamesList = getAllNames();
+    var libsNamesObj  = getAllNamesObj();
 
-    $scope.$watch("queryLib", function(val, old) {
-      if(val === undefined) {
-        console.log("UNDEFINED MY ASS!");
-      };
-      $scope.libsFiltered = fuzzySearch.findPatterns(val, libsNamesList);
+
+    $scope.$watch('queryLib', function(val, old) {
+      console.log(val);
+      if(val === undefined || val === "") {
+        $scope.libsFiltered = libsNamesObj;
+      }
+      else {
+        $scope.libsFiltered = fuzzySearch.findPatterns(val, libsNamesList);
+      }
     });
   });
 
@@ -109,6 +113,16 @@ assetline.controller('newPackageCtrl', function($rootScope, $scope, $http, Packa
 
     $scope.libs.forEach(function(lib) {
       array.push(lib.name);
+    });
+
+    return array;
+  };
+
+  getAllNamesObj = function() {
+    var array = [];
+
+    $scope.libs.forEach(function(lib) {
+      array.push({"name": lib.name});
     });
 
     return array;
@@ -138,6 +152,7 @@ assetline.controller('newPackageCtrl', function($rootScope, $scope, $http, Packa
 
   $scope.selectedLibs = function(){
     return $scope.libs.filter(function(lib) {
+      console.log(lib);
       return lib.selected;
     });
   };
@@ -210,9 +225,9 @@ assetline.directive('packageCreationModal', function(){
       });
 
       $scope.numberOfPages = function() {
-        if(!$scope.filtered)
+        if(!$scope.libsFiltered)
           return 0;
-        return Math.ceil($scope.filtered.length/$scope.pageSize);
+        return Math.ceil($scope.libsFiltered.length/$scope.pageSize);
       };
 
       $scope.goBackOnePage = function() {

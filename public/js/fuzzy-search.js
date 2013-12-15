@@ -14,11 +14,10 @@ window.fuzzySearch = {
 
       while(query.length > 0) {
         if(priorityMatch) {
-          //find uppercase matches (later, look for possible section starters)
           lastSearch = lookUpper(stringIndex, nameObj, query[queryIndex]);
 
           if(lastSearch === -1) {
-            lastSearch = lookAny(stringIndex + 1, nameObj, query[queryIndex]);
+            lastSearch = lookAny(stringIndex, nameObj, query[queryIndex]);
             if(lastSearch === -1) {
               priorityMatch = false;
               query         = pattern.replace(/\s+/g, '').split('');
@@ -29,6 +28,7 @@ window.fuzzySearch = {
               stringIndex = lastSearch;
               matchPos.push(stringIndex);
               query.splice(queryIndex,1);
+              stringIndex++;
             }
 
           }
@@ -36,11 +36,12 @@ window.fuzzySearch = {
             stringIndex = lastSearch;
             matchPos.push(stringIndex);
             query.splice(queryIndex,1);
+            stringIndex++;
           }
         }
 
         else {
-          lastSearch = lookAny(stringIndex + 1, nameObj, query[queryIndex]);
+          lastSearch = lookAny(stringIndex, nameObj, query[queryIndex]);
           if(lastSearch === -1) {
             giveUp = true;
             break;
@@ -49,6 +50,7 @@ window.fuzzySearch = {
             stringIndex = lastSearch;
             matchPos.push(stringIndex);
             query.splice(queryIndex,1);
+            stringIndex++;
           }
         }
       }
@@ -129,7 +131,7 @@ window.fuzzySearch = {
   },
 
   isUpper: function(ch) {
-    return ch.toUpperCase() === ch;
+    return (ch.toUpperCase() === ch) || (/\W^\s/).exec(ch);
   },
 
   makeNameObj: function(name) {
@@ -138,7 +140,7 @@ window.fuzzySearch = {
     for(var i = 0; i < name.length; i++) {
       var n = {
                 c: name[i],
-                beginSection: i === 0 || (fuzzySearch.isUpper(name[i]) && !fuzzySearch.isUpper(name[i - 1])) ? true : false,
+                beginSection: i === 0 || (fuzzySearch.isUpper(name[i]) && i === 1) || (fuzzySearch.isUpper(name[i]) && !fuzzySearch.isUpper(name[i - 1])) ? true : false,
                 weight: 0
               }
       nameObj.push(n);
